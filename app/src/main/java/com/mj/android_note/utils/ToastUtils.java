@@ -1,0 +1,49 @@
+package com.mj.android_note.utils;
+
+import android.content.Context;
+import android.text.TextUtils;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.mj.android_note.app.NoteApplication;
+
+/**
+ * Author      : MJ
+ * Date        : 2018/9/4--下午11:10
+ * Email       : miaojian_666@126.com
+ * Description : toast工具类
+ */
+public class ToastUtils {
+    private static final String TAG = "ToastUtils";
+    private static Toast mToast;
+
+    private ToastUtils() {
+        throw new UnsupportedOperationException("you can`t instantiation me...");
+    }
+
+    /**
+     * 展示时间较短的toast
+     *
+     * @param msg 提示信息字符串
+     */
+    public static void showShortToast(String msg) {
+        if (TextUtils.isEmpty(msg)) {
+            Log.d(TAG, "msg not nulls allowed...");
+            return;
+        }
+        createToast(NoteApplication.getInstance());
+        mToast.setText(msg);
+        mToast.show();
+    }
+
+    /**
+     * 创建Toast
+     *
+     * @param context context文本
+     */
+    private static void createToast(Context context) {
+        if (null == mToast) {
+            mToast = new Toast(context);
+        }
+    }
+}
