@@ -8,7 +8,6 @@ import android.view.View;
 
 import com.mj.android_note.R;
 import com.mj.android_note.activity.db.DbMainActivity;
-import com.mj.android_note.utils.ToastUtils;
 
 /**
  * Author      : MJ
@@ -22,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         findViewById(R.id.main_activity_btn_db).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
