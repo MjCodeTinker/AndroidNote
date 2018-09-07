@@ -2,6 +2,8 @@ package com.mj.android_note.app;
 
 import android.app.Application;
 
+import com.mj.android_note.utils.LocalResourceUtil;
+
 /**
  * Author      : MJ
  * Date        : 2018/9/4--下午10:02
@@ -19,5 +21,6 @@ public class NoteApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        LocalResourceUtil.init(this);
     }
 }

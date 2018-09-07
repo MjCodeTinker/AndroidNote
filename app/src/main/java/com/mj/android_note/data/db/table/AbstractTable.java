@@ -18,9 +18,20 @@ abstract class AbstractTable implements IBaseTable {
     private final String TAG = this.getClass().getSimpleName();
 
     // id列
-    static final String COLUMN_ID = "_id";
+    private static final String COLUMN_ID = "_id";
+    /**
+     * 列条件
+     */
     // id自增长条件
-    static final String COLUMN_ID_CONDITIONS = "INTEGER PRIMARY KEY AUTOINCREMENT";
+    private static final String CONDITIONS_ID_INCREMENT = "INTEGER PRIMARY KEY AUTOINCREMENT";
+    static final String CONDITIONS_TEXT = "TEXT";//文本
+    static final String CONDITIONS_INTEGER = "INTEGER";//整数
+    static final String CONDITIONS_REAL = "REAL";//浮点数
+    static final String CONDITIONS_BLOB = "BLOB";//大对象
+    static final String CONDITIONS_TEXT_DEFAULT = "TEXT DEFAULT ";//带默认值的文本
+    static final String CONDITIONS_INTEGER_DEFAULT = "INTEGER ";//带默认值的整数
+    static final String CONDITIONS_REAL_DEFAULT = "REAL DEFAULT ";//带默认值的浮点数
+    static final String CONDITIONS_BLOB_DEFAULT = "BLOB DEFAULT ";//带默认值的大对象
 
     /**
      * 生成创建标的sql语句
@@ -64,7 +75,7 @@ abstract class AbstractTable implements IBaseTable {
      */
     Map<String, String> getIdIncrementMap() {
         Map<String, String> map = new HashMap<>();
-        map.put(COLUMN_ID, COLUMN_ID_CONDITIONS);
+        map.put(COLUMN_ID, CONDITIONS_ID_INCREMENT);
         return map;
     }
 }

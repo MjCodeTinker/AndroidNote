@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AndroidNote</string>
+    <string name="default_folder_name">笔记</string>
 </resources>

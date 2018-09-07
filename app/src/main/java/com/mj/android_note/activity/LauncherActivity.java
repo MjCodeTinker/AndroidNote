@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 
 import com.mj.android_note.R;
+import com.mj.android_note.utils.constant.BaseConstant;
 
 /**
  * Author      : MJ
@@ -24,7 +25,7 @@ public class LauncherActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
         View parentView = findViewById(R.id.launcher_parent_view);
-        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(parentView, "alpha", 0f, 1f, 0f);
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(parentView, BaseConstant.AnimatorPropertyName.ALPHA, 0f, 1f, 0f);
         objectAnimator.setInterpolator(new LinearInterpolator());
         objectAnimator.setDuration(3000);
         objectAnimator.addListener(new AnimatorListenerAdapter() {
