@@ -1,5 +1,6 @@
 package com.mj.android_note.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
@@ -41,9 +42,10 @@ public class ToastUtils {
      *
      * @param context context文本
      */
+    @SuppressLint("ShowToast")
     private static void createToast(Context context) {
         if (null == mToast) {
-            mToast = new Toast(context);
+            mToast = Toast.makeText(context, "", Toast.LENGTH_SHORT);
         }
     }
 }

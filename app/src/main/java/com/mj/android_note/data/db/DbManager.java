@@ -2,7 +2,7 @@ package com.mj.android_note.data.db;
 
 import com.mj.android_note.app.AppConfig;
 import com.mj.android_note.app.NoteApplication;
-import com.mj.android_note.data.db.table.in.IFolderTable;
+import com.mj.android_note.data.db.table.in.IFolder;
 
 /**
  * Author      : MJ
@@ -31,8 +31,8 @@ public class DbManager {
      *
      * @return 文件夹表
      */
-    public IFolderTable getFolderTable() {
-        return (IFolderTable) dbHelper.getTableMap().get(AppConfig.DbConfig.DB_TABLE_NAME_FOLDER);
+    public IFolder getFolderTable() {
+        return (IFolder) dbHelper.getTableMap().get(AppConfig.DbConfig.DB_TABLE_NAME_FOLDER);
     }
 
 }

@@ -1,11 +1,13 @@
 package com.mj.android_note.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.mj.android_note.R;
-import com.mj.android_note.data.db.table.FolderTable;
+import com.mj.android_note.activity.db.DbMainActivity;
 import com.mj.android_note.utils.ToastUtils;
 
 /**
@@ -20,10 +22,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        FolderTable folderTable = new FolderTable();
-        ToastUtils.showShortToast("result:" + true);
+        findViewById(R.id.main_activity_btn_db).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this, DbMainActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

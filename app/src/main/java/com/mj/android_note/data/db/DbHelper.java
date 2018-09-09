@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.mj.android_note.app.AppConfig;
-import com.mj.android_note.data.db.table.FolderTable;
+import com.mj.android_note.data.db.table.DbFolderImpl;
 import com.mj.android_note.data.db.table.IBaseTable;
 
 import java.util.HashMap;
@@ -29,7 +29,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     //所有表都需要配置到map中 表明mapping表对象
     private void initTables() {
-        tableMap.put(AppConfig.DbConfig.DB_TABLE_NAME_FOLDER, new FolderTable(this));
+        tableMap.put(AppConfig.DbConfig.DB_TABLE_NAME_FOLDER, new DbFolderImpl(this));
     }
 
     //获取表map

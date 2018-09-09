@@ -1,6 +1,10 @@
 package com.mj.android_note.data.db.table;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
+
+import com.mj.android_note.data.db.DbHelper;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -18,7 +22,7 @@ abstract class AbstractTable implements IBaseTable {
     private final String TAG = this.getClass().getSimpleName();
 
     // id列
-    private static final String COLUMN_ID = "_id";
+    static final String COLUMN_ID = "_id";
     /**
      * 列条件
      */
@@ -32,6 +36,20 @@ abstract class AbstractTable implements IBaseTable {
     static final String CONDITIONS_INTEGER_DEFAULT = "INTEGER ";//带默认值的整数
     static final String CONDITIONS_REAL_DEFAULT = "REAL DEFAULT ";//带默认值的浮点数
     static final String CONDITIONS_BLOB_DEFAULT = "BLOB DEFAULT ";//带默认值的大对象
+
+    private DbHelper dbHelper;
+
+    public AbstractTable(DbHelper dbHelper) {
+        this.dbHelper = dbHelper;
+    }
+
+    SQLiteDatabase getWriteDb() {
+        return dbHelper.getWritableDatabase();
+    }
+
+    SQLiteDatabase getReadDb() {
+        return dbHelper.getReadableDatabase();
+    }
 
     /**
      * 生成创建标的sql语句
@@ -77,5 +95,15 @@ abstract class AbstractTable implements IBaseTable {
         Map<String, String> map = new HashMap<>();
         map.put(COLUMN_ID, CONDITIONS_ID_INCREMENT);
         return map;
+    }
+
+    /**
+     * 关闭cursor
+     * @param cursor 游标
+     */
+    void closeCursor(Cursor cursor) {
+        if (cursor != null && !cursor.isClosed()) {
+            cursor.close();
+        }
     }
 }
