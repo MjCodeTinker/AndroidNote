@@ -115,6 +115,7 @@ public final class DbFolderImpl extends AbstractTable implements IFolder {
     public boolean isExistFileOrFolder(FileOrFolderBean bean) {
         String[] columns = {COLUMN_ID};
         String where = "id = " + bean.getId();
+
         Cursor query = getReadDb().query(AppConfig.DbConfig.DB_TABLE_NAME_FOLDER, columns, where, null, null, null, null);
         boolean result = query != null && query.getCount() > 0;
         closeCursor(query);

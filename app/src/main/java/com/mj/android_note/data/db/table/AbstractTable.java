@@ -86,6 +86,39 @@ abstract class AbstractTable implements IBaseTable {
         return strBuilder.toString();
     }
 
+    String generateWhereStr(Map<String, String> whereMap, String whereType) {
+        if (null == whereMap) {
+            throw new NullPointerException(TAG + " columnMap not null allowed...");
+        }
+        StringBuilder sb = new StringBuilder();
+        Set<Map.Entry<String, String>> entries = whereMap.entrySet();
+        Iterator<Map.Entry<String, String>> iterator = entries.iterator();
+        while (true) {
+            if (!iterator.hasNext()) {
+                break;
+            }
+            Map.Entry<String, String> entry = iterator.next();
+            String key = entry.getKey();
+            String value = entry.getValue();
+            if (TextUtils.isEmpty(key) || TextUtils.isEmpty(value)) {
+                throw new NullPointerException("key or value not nulls allowed...");
+            }
+            sb.append(key);
+            if (!TextUtils.isEmpty(whereType)) {
+                sb.append(whereType);
+            }
+            sb.append(" = ");
+            sb.append(value);
+            if (TextUtils.isEmpty(whereType)) {
+                break;
+            }
+            if (iterator.hasNext()) {
+                sb.append(" AND ");
+            }
+        }
+        return sb.toString();
+    }
+
     /**
      * 获取id自增长的map
      *
@@ -97,8 +130,10 @@ abstract class AbstractTable implements IBaseTable {
         return map;
     }
 
+
     /**
      * 关闭cursor
+     *
      * @param cursor 游标
      */
     void closeCursor(Cursor cursor) {
