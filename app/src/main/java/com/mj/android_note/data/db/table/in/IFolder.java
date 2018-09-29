@@ -60,11 +60,14 @@ public interface IFolder {
 
     public interface ResultCode {
         public final int SUCCESS = 0;//成功
-        public final int ERROR_UNKNOW = 1000;//位置错误
+        public final int ERROR_UN_KNOW = 1000;//未知错误
         public final int ERROR_FILE_EXIST = 1001;//文件已经存在
         public final int ERROR_FOLDER_EXIST = 1002;//文件夹已经存在
         public final int ERROR_FILE_NOT_EXIST = 1003;//文件不存在
         public final int ERROR_FOLDER_NOT_EXIST = 1004;//文件夹不存在
+        public final int ERROR_FILE_NAME_IS_NULL = 1005;//文件名为空
+        public final int ERROR_FOLDER_NMAE_IS_NULL = 1006;//文件夹名称为空
+
     }
 
 }

@@ -1,5 +1,7 @@
 package com.mj.android_note.bean;
 
+import com.mj.android_note.data.db.table.DbFolderImpl;
+
 /**
  * Author      : MJ
  * Date        : 2018/9/8--下午7:45
@@ -10,11 +12,11 @@ public class FileOrFolderBean {
     private int id;//每条数据的id
     private boolean isFolder;//是否为文件夹
     private String fileName;//文件名称
-    private String folderName;//文件夹名称
+    private String folderName = DbFolderImpl.DEFAULT_FOLDER_NAME;//文件夹名称
     private String modifyFolderName;//将要修改的文件夹名称
-    private long createTime;//创建时间
-    private int position;//本条数据的位置
-    private int parentFolderID;//父文件夹id
+    private long createTime = Long.parseLong(DbFolderImpl.DEFAULT_CREATE_TIME);//创建时间
+    private int position = Integer.parseInt(DbFolderImpl.DEFAULT_POSITION);//本条数据的位置
+    private int parentFolderID = Integer.parseInt(DbFolderImpl.DEFAULT_PARENT_FOLDER_ID);//父文件夹id
 
     public int getId() {
         return id;

@@ -21,6 +21,10 @@ abstract class AbstractTable implements IBaseTable {
     // 类名
     private final String TAG = this.getClass().getSimpleName();
 
+    static final String WHERE_CONDITIONS_AND = " AND ";
+    static final String WHERE_CONDITIONS_OR = " OR ";
+
+
     // id列
     static final String COLUMN_ID = "_id";
     /**
@@ -86,6 +90,13 @@ abstract class AbstractTable implements IBaseTable {
         return strBuilder.toString();
     }
 
+    /**
+     * 生成where 条件字符串
+     *
+     * @param whereMap  条件key value  map
+     * @param whereType 条件类型 and or
+     * @return 条件语句
+     */
     String generateWhereStr(Map<String, String> whereMap, String whereType) {
         if (null == whereMap) {
             throw new NullPointerException(TAG + " columnMap not null allowed...");
@@ -104,16 +115,13 @@ abstract class AbstractTable implements IBaseTable {
                 throw new NullPointerException("key or value not nulls allowed...");
             }
             sb.append(key);
-            if (!TextUtils.isEmpty(whereType)) {
-                sb.append(whereType);
-            }
             sb.append(" = ");
             sb.append(value);
             if (TextUtils.isEmpty(whereType)) {
                 break;
             }
             if (iterator.hasNext()) {
-                sb.append(" AND ");
+                sb.append(whereType);
             }
         }
         return sb.toString();
