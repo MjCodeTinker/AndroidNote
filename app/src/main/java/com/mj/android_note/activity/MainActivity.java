@@ -1,5 +1,6 @@
 package com.mj.android_note.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,7 +16,7 @@ import com.mj.android_note.activity.db.DbMainActivity;
  * Email       : miaojian_666@126.com
  * Description : 应用的主界面
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

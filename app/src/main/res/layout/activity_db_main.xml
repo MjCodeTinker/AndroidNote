@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="#ff0000"
     android:layout_height="match_parent">
 
 
@@ -11,11 +12,7 @@
         android:layout_height="wrap_content"
         android:text="保存"
         android:textColor="@color/colorPrimary"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="15sp" />
 
     <Button
         android:id="@+id/db_find"
@@ -23,11 +20,7 @@
         android:layout_height="wrap_content"
         android:text="查询"
         android:textColor="@color/colorPrimary"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/db_save" />
+        android:textSize="15sp" />
 
     <Button
         android:id="@+id/db_delete"
@@ -35,11 +28,7 @@
         android:layout_height="wrap_content"
         android:text="删除"
         android:textColor="@color/colorPrimary"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/db_find" />
+        android:textSize="15sp" />
 
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

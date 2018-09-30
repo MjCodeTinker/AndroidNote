@@ -14,6 +14,7 @@ public class FileOrFolderBean {
     private String fileName;//文件名称
     private String folderName = DbFolderImpl.DEFAULT_FOLDER_NAME;//文件夹名称
     private String modifyFolderName;//将要修改的文件夹名称
+    private String modifyFileName;//将要修改的文件名称
     private long createTime = Long.parseLong(DbFolderImpl.DEFAULT_CREATE_TIME);//创建时间
     private int position = Integer.parseInt(DbFolderImpl.DEFAULT_POSITION);//本条数据的位置
     private int parentFolderID = Integer.parseInt(DbFolderImpl.DEFAULT_PARENT_FOLDER_ID);//父文件夹id
@@ -56,6 +57,14 @@ public class FileOrFolderBean {
 
     public void setModifyFolderName(String modifyFolderName) {
         this.modifyFolderName = modifyFolderName;
+    }
+
+    public String getModifyFileName() {
+        return modifyFileName;
+    }
+
+    public void setModifyFileName(String modifyFileName) {
+        this.modifyFileName = modifyFileName;
     }
 
     public long getCreateTime() {

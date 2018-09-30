@@ -24,7 +24,6 @@ abstract class AbstractTable implements IBaseTable {
     static final String WHERE_CONDITIONS_AND = " AND ";
     static final String WHERE_CONDITIONS_OR = " OR ";
 
-
     // id列
     static final String COLUMN_ID = "_id";
     /**
@@ -37,7 +36,7 @@ abstract class AbstractTable implements IBaseTable {
     static final String CONDITIONS_REAL = "REAL";//浮点数
     static final String CONDITIONS_BLOB = "BLOB";//大对象
     static final String CONDITIONS_TEXT_DEFAULT = "TEXT DEFAULT ";//带默认值的文本
-    static final String CONDITIONS_INTEGER_DEFAULT = "INTEGER ";//带默认值的整数
+    static final String CONDITIONS_INTEGER_DEFAULT = "INTEGER DEFAULT ";//带默认值的整数
     static final String CONDITIONS_REAL_DEFAULT = "REAL DEFAULT ";//带默认值的浮点数
     static final String CONDITIONS_BLOB_DEFAULT = "BLOB DEFAULT ";//带默认值的大对象
 
@@ -97,26 +96,38 @@ abstract class AbstractTable implements IBaseTable {
      * @param whereType 条件类型 and or
      * @return 条件语句
      */
-    String generateWhereStr(Map<String, String> whereMap, String whereType) {
+    String generateWhereStr(Map<String, Object> whereMap, String whereType) {
         if (null == whereMap) {
             throw new NullPointerException(TAG + " columnMap not null allowed...");
         }
         StringBuilder sb = new StringBuilder();
-        Set<Map.Entry<String, String>> entries = whereMap.entrySet();
-        Iterator<Map.Entry<String, String>> iterator = entries.iterator();
+        Set<Map.Entry<String, Object>> entries = whereMap.entrySet();
+        Iterator<Map.Entry<String, Object>> iterator = entries.iterator();
         while (true) {
             if (!iterator.hasNext()) {
                 break;
             }
-            Map.Entry<String, String> entry = iterator.next();
+            Map.Entry<String, Object> entry = iterator.next();
             String key = entry.getKey();
-            String value = entry.getValue();
-            if (TextUtils.isEmpty(key) || TextUtils.isEmpty(value)) {
+            Object value = entry.getValue();
+            if (TextUtils.isEmpty(key)) {
+                throw new NullPointerException("key or value not nulls allowed...");
+            }
+            if (value == null || (value instanceof String && TextUtils.isEmpty(String.valueOf(value)))) {
                 throw new NullPointerException("key or value not nulls allowed...");
             }
             sb.append(key);
             sb.append(" = ");
+
+            // 如果查询的内容为字符串，需要用引号包裹起来
+            if (value instanceof String) {
+                sb.append("'");
+            }
             sb.append(value);
+            // 如果查询的内容为字符串，需要用引号包裹起来
+            if (value instanceof String) {
+                sb.append("'");
+            }
             if (TextUtils.isEmpty(whereType)) {
                 break;
             }

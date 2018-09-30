@@ -12,6 +12,7 @@ import com.mj.android_note.data.db.DbHelper;
 import com.mj.android_note.data.db.table.in.IFolder;
 import com.mj.android_note.utils.LocalResourceUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,7 @@ public final class DbFolderImpl extends AbstractTable implements IFolder {
     private static final String COLUMN_POSITION = "position";//位置，方便排序使用
     private static final String COLUMN_CREATE_TIME = "createTime";//创建时间
 
+    private static final String IS_FOLDER = "1";//是文件夹
     //默认文件夹名称
     private static final String DEFAULT_NOT_FOLDER = "0";//默认不是文件夹
     public static final String DEFAULT_FOLDER_NAME = LocalResourceUtil.getStr(R.string.default_folder_name);//默认文件夹默认名称
@@ -79,7 +81,7 @@ public final class DbFolderImpl extends AbstractTable implements IFolder {
 
         if (bean.isFolder()) {
             if (TextUtils.isEmpty(bean.getFolderName())) {
-                return ResultCode.ERROR_FOLDER_NMAE_IS_NULL;
+                return ResultCode.ERROR_FOLDER_NAME_IS_NULL;
             }
         } else {
             if (TextUtils.isEmpty(bean.getFileName())) {
@@ -94,7 +96,7 @@ public final class DbFolderImpl extends AbstractTable implements IFolder {
         ContentValues contentValues = generateContentValues(bean);
 
         long insert = getWriteDb().insert(AppConfig.DbConfig.DB_TABLE_NAME_FOLDER, null, contentValues);
-        return insert >= 0 ? ResultCode.SUCCESS : ResultCode.ERROR_UN_KNOW;
+        return insert > 0 ? ResultCode.SUCCESS : ResultCode.ERROR_UN_KNOW;
     }
 
     @Override
@@ -102,7 +104,7 @@ public final class DbFolderImpl extends AbstractTable implements IFolder {
 
         if (bean.isFolder()) {
             if (TextUtils.isEmpty(bean.getFolderName())) {
-                return ResultCode.ERROR_FOLDER_NMAE_IS_NULL;
+                return ResultCode.ERROR_FOLDER_NAME_IS_NULL;
             }
         } else {
             if (TextUtils.isEmpty(bean.getFileName())) {
@@ -115,28 +117,28 @@ public final class DbFolderImpl extends AbstractTable implements IFolder {
         }
 
         String where;
-        Map<String, String> map = new HashMap<>();
-        map.put(COLUMN_PARENT_FOLDER_ID, String.valueOf(bean.getParentFolderID()));
+        Map<String, Object> map = new HashMap<>();
+        map.put(COLUMN_PARENT_FOLDER_ID, bean.getParentFolderID());
         if (bean.isFolder()) {
-            map.put(COLUMN_ID, String.valueOf(bean.getId()));
+            map.put(COLUMN_ID, bean.getId());
             where = generateWhereStr(map, WHERE_CONDITIONS_OR);
         } else {
             map.put(COLUMN_FILE_NAME, bean.getFileName());
             where = generateWhereStr(map, WHERE_CONDITIONS_AND);
         }
         int delete = getReadDb().delete(AppConfig.DbConfig.DB_TABLE_NAME_FOLDER, where, null);
-        return delete >= 0 ? ResultCode.SUCCESS : ResultCode.ERROR_UN_KNOW;
+        return delete > 0 ? ResultCode.SUCCESS : ResultCode.ERROR_UN_KNOW;
     }
 
     @Override
     public int updateFileOrFolder(FileOrFolderBean bean) {
 
         if (bean.isFolder()) {
-            if (TextUtils.isEmpty(bean.getFolderName())) {
-                return ResultCode.ERROR_FOLDER_NMAE_IS_NULL;
+            if (TextUtils.isEmpty(bean.getFolderName()) || TextUtils.isEmpty(bean.getModifyFolderName())) {
+                return ResultCode.ERROR_FOLDER_NAME_IS_NULL;
             }
         } else {
-            if (TextUtils.isEmpty(bean.getFileName())) {
+            if (TextUtils.isEmpty(bean.getFileName()) || TextUtils.isEmpty(bean.getModifyFileName())) {
                 return ResultCode.ERROR_FILE_NAME_IS_NULL;
             }
         }
@@ -147,43 +149,49 @@ public final class DbFolderImpl extends AbstractTable implements IFolder {
 
         ContentValues contentValues = new ContentValues();
         String where;
-        Map<String, String> map = new HashMap<>();
-        map.put(COLUMN_PARENT_FOLDER_ID, String.valueOf(bean.getParentFolderID()));
+        Map<String, Object> map = new HashMap<>();
         if (bean.isFolder()) {
-            map.put(COLUMN_ID, String.valueOf(bean.getId()));
-            where = generateWhereStr(map, WHERE_CONDITIONS_OR);
+            contentValues.put(COLUMN_FOLDER_NAME, bean.getModifyFolderName());
+            map.put(COLUMN_ID, bean.getId());
+            where = generateWhereStr(map, null);
         } else {
+            contentValues.put(COLUMN_FILE_NAME, bean.getModifyFileName());
+            map.put(COLUMN_PARENT_FOLDER_ID, bean.getParentFolderID());
             map.put(COLUMN_FILE_NAME, bean.getFileName());
             where = generateWhereStr(map, WHERE_CONDITIONS_AND);
         }
 
         int update = getWriteDb().update(AppConfig.DbConfig.DB_TABLE_NAME_FOLDER, contentValues, where, null);
-        return update >= 0 ? ResultCode.SUCCESS : ResultCode.ERROR_UN_KNOW;
+        return update > 0 ? ResultCode.SUCCESS : ResultCode.ERROR_UN_KNOW;
     }
 
     @Override
     public List<FileOrFolderBean> findChildFolderContent(FileOrFolderBean bean) {
-        return null;
+        Map<String, Object> map = new HashMap<>();
+        map.put(COLUMN_PARENT_FOLDER_ID, bean.getParentFolderID());
+        String where = generateWhereStr(map, null);
+        Cursor query = getReadDb().query(AppConfig.DbConfig.DB_TABLE_NAME_FOLDER, null, where, null, null, null, COLUMN_CREATE_TIME);
+        List<FileOrFolderBean> result = convertToListByCursor(query);
+        closeCursor(query);
+        return result;
     }
 
     @Override
     public boolean isExistFileOrFolder(FileOrFolderBean bean) {
-        String[] columns;
+
         String where;
-        Map<String, String> map = new HashMap<>();
-        map.put(COLUMN_PARENT_FOLDER_ID, String.valueOf(bean.getParentFolderID()));
+        Map<String, Object> map = new HashMap<>();
+        map.put(COLUMN_PARENT_FOLDER_ID, bean.getParentFolderID());
 
         if (bean.isFolder()) {
-            columns = new String[]{COLUMN_PARENT_FOLDER_ID, COLUMN_FOLDER_NAME};
             map.put(COLUMN_FOLDER_NAME, bean.getFolderName());
             where = generateWhereStr(map, WHERE_CONDITIONS_AND);
         } else {
-            columns = new String[]{COLUMN_PARENT_FOLDER_ID, COLUMN_FILE_NAME};
             map.put(COLUMN_FILE_NAME, bean.getFileName());
             where = generateWhereStr(map, WHERE_CONDITIONS_AND);
         }
 
-        Cursor query = getReadDb().query(AppConfig.DbConfig.DB_TABLE_NAME_FOLDER, columns, where, null, null, null, null);
+        Cursor query = getReadDb().query(AppConfig.DbConfig.DB_TABLE_NAME_FOLDER, null, where, null, null, null, null);
         boolean result = query != null && query.getCount() > 0;
         closeCursor(query);
         return result;
@@ -199,11 +207,48 @@ public final class DbFolderImpl extends AbstractTable implements IFolder {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_FILE_NAME, bean.getFileName());
         contentValues.put(COLUMN_FOLDER_NAME, bean.getFolderName());
-        contentValues.put(COLUMN_IS_FOLDER, bean.isFolder());
+        contentValues.put(COLUMN_IS_FOLDER, bean.isFolder() ? IS_FOLDER : DEFAULT_NOT_FOLDER);
         contentValues.put(COLUMN_PARENT_FOLDER_ID, bean.getParentFolderID());
         contentValues.put(COLUMN_POSITION, bean.getPosition());
         contentValues.put(COLUMN_CREATE_TIME, bean.getCreateTime());
         return contentValues;
     }
+
+    /**
+     * 将cursor 对象转化为 List bean
+     *
+     * @param c cursor
+     * @return 文件或文件夹对象的集合
+     */
+    private List<FileOrFolderBean> convertToListByCursor(Cursor c) {
+        List<FileOrFolderBean> result = new ArrayList<>();
+        if (c != null) {
+            while (c.moveToNext()) {
+                result.add(convertToBeanByCursor(c));
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 将cursor 对象转化为 bean
+     *
+     * @param c cursor
+     * @return 文件或文件夹对象
+     */
+    private FileOrFolderBean convertToBeanByCursor(Cursor c) {
+        FileOrFolderBean folderBean = new FileOrFolderBean();
+        if (c != null) {
+            folderBean.setId(c.getInt(c.getColumnIndex(COLUMN_ID)));
+            folderBean.setFileName(c.getString(c.getColumnIndex(COLUMN_FILE_NAME)));
+            folderBean.setFolderName(c.getString(c.getColumnIndex(COLUMN_FOLDER_NAME)));
+            folderBean.setFolder((String.valueOf(c.getInt(c.getColumnIndex(COLUMN_IS_FOLDER))).equals(DEFAULT_NOT_FOLDER)));
+            folderBean.setParentFolderID(c.getInt(c.getColumnIndex(COLUMN_PARENT_FOLDER_ID)));
+            folderBean.setPosition(c.getInt(c.getColumnIndex(COLUMN_POSITION)));
+            folderBean.setCreateTime(c.getLong(c.getColumnIndex(COLUMN_CREATE_TIME)));
+        }
+        return folderBean;
+    }
+
 
 }
