@@ -32,5 +32,14 @@ public class LocalResourceUtil {
         return getResource().getString(resId);
     }
 
+    /**
+     * 从资源文件中获取color
+     * @param resId 资源id
+     * @return 颜色
+     */
+    public static int getColor(int resId){
+        return getResource().getColor(resId);
+    }
+
 
 }

@@ -1,14 +1,13 @@
-package com.mj.android_note.activity;
+package com.mj.android_note.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.mj.android_note.R;
-import com.mj.android_note.activity.db.DbMainActivity;
+import com.mj.android_note.ui.activity.db.DbMainActivity;
 
 /**
  * Author      : MJ

@@ -1,8 +1,9 @@
-package com.mj.android_note.activity;
+package com.mj.android_note.ui.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +19,7 @@ import com.mj.android_note.utils.constant.BaseConstant;
  * Email       : miaojian_666@126.com
  * Description : app启动页
  */
-public class LauncherActivity extends AppCompatActivity {
+public class LauncherActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

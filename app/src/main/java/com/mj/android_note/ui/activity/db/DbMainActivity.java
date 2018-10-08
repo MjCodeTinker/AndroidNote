@@ -1,15 +1,17 @@
-package com.mj.android_note.activity.db;
+package com.mj.android_note.ui.activity.db;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.mj.android_note.R;
 import com.mj.android_note.bean.FileOrFolderBean;
 import com.mj.android_note.data.db.DbManager;
 import com.mj.android_note.data.db.table.in.IFolder;
+import com.mj.android_note.utils.LocalResourceUtil;
 import com.mj.android_note.utils.LogUtil;
 import com.mj.android_note.utils.ThreadUtils;
 import com.mj.android_note.utils.ToastUtils;
@@ -31,24 +33,38 @@ public class DbMainActivity extends Activity implements View.OnClickListener {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_db_main);
-        findViewById(R.id.db_save).setOnClickListener(this);
-        findViewById(R.id.db_find).setOnClickListener(this);
-        findViewById(R.id.db_delete).setOnClickListener(this);
+        initView();
+    }
+
+    private void initView() {
+//        findViewById(R.id.db_save).setOnClickListener(this);
+//        findViewById(R.id.db_find).setOnClickListener(this);
+//        findViewById(R.id.db_delete).setOnClickListener(this);
+        findViewById(R.id.header_back).setOnClickListener(this);
+        findViewById(R.id.header_more).setOnClickListener(this);
+        TextView tvTitle = findViewById(R.id.header_title);
+        tvTitle.setText(LocalResourceUtil.getStr(R.string.default_folder_name));
     }
 
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.db_save:
-                save();
+            case R.id.header_back:
+                finish();
                 break;
-            case R.id.db_find:
-                findAll();
+            case R.id.header_more:
+
                 break;
-            case R.id.db_delete:
-                delete();
-                break;
+//            case R.id.db_save:
+//                save();
+//                break;
+//            case R.id.db_find:
+//                findAll();
+//                break;
+//            case R.id.db_delete:
+//                delete();
+//                break;
             default:
                 break;
         }
