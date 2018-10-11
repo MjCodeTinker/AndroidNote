@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.mj.android_note.R;
 import com.mj.android_note.ui.activity.db.DbMainActivity;
+import com.mj.android_note.ui.activity.permission.PermissionActivity;
 
 /**
  * Author      : MJ
@@ -25,7 +26,15 @@ public class MainActivity extends Activity {
         findViewById(R.id.main_activity_btn_db).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MainActivity.this, DbMainActivity.class);
+                Intent intent = new Intent(MainActivity.this, DbMainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.main_activity_btn_permission).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, PermissionActivity.class);
                 startActivity(intent);
             }
         });

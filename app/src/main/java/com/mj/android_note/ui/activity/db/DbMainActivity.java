@@ -1,16 +1,15 @@
 package com.mj.android_note.ui.activity.db;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.mj.android_note.R;
 import com.mj.android_note.bean.FileOrFolderBean;
 import com.mj.android_note.data.db.DbManager;
 import com.mj.android_note.data.db.table.in.IFolder;
+import com.mj.android_note.ui.activity.BaseActivity;
 import com.mj.android_note.utils.LocalResourceUtil;
 import com.mj.android_note.utils.LogUtil;
 import com.mj.android_note.utils.ThreadUtils;
@@ -24,13 +23,11 @@ import java.util.List;
  * Email       : miaojian_666@126.com
  * Description : 数据库相关
  */
-public class DbMainActivity extends Activity implements View.OnClickListener {
+public class DbMainActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "DbMainActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_db_main);
         initView();

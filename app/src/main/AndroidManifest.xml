@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mj.android_note">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.SEND_SMS"/>
     <application
         android:name=".app.NoteApplication"
         android:allowBackup="true"
@@ -19,6 +21,7 @@
         </activity>
         <activity android:name=".ui.activity.MainActivity" />
         <activity android:name=".ui.activity.db.DbMainActivity" />
+        <activity android:name=".ui.activity.permission.PermissionActivity" />
     </application>
 
 </manifest>
