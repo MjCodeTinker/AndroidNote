@@ -5,20 +5,12 @@
     android:layout_height="match_parent"
     app:statusColor="@color/status_bar_color">
 
+        <Button
+            android:id="@+id/permission_btn_open_camera"
+            android:text="打开相机"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"/>
 
-
-    <Button
-        android:id="@+id/permission_btn_open_camera"
-        android:text="打开相机"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"/>
-
-
-    <SurfaceView
-        android:id="@+id/permission_surfaceView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
 
 </com.mj.android_note.ui.widget.MagicStatusBarRootLayout>

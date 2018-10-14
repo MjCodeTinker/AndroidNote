@@ -71,8 +71,4 @@ public class DynamicPermissionEmitter {
         dynamicPermissionFragment.commitPermission(permissions);
     }
 
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        dynamicPermissionFragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
 }

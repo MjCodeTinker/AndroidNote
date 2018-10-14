@@ -1,11 +1,8 @@
 package com.mj.android_note.ui.activity.permission;
 
 import android.Manifest;
-import android.hardware.Camera;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.SurfaceView;
 import android.view.View;
 
 import com.mj.android_note.R;
@@ -15,8 +12,6 @@ import com.mj.android_note.ui.activity.BaseActivity;
 import com.mj.android_note.utils.LogUtil;
 import com.mj.android_note.utils.ToastUtils;
 
-import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,15 +24,14 @@ import java.util.Map;
 public class PermissionActivity extends BaseActivity {
 
     private static final String TAG = "PermissionActivity";
-    private SurfaceView surfaceView;
     DynamicPermissionEmitter dynamicPermissionEmitter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_permission);
+
         dynamicPermissionEmitter = new DynamicPermissionEmitter(this);
-        surfaceView = findViewById(R.id.permission_surfaceView);
         findViewById(R.id.permission_btn_open_camera).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,7 +39,7 @@ public class PermissionActivity extends BaseActivity {
                     @Override
                     public void result(Map<String, DynamicPermissionEntity> permissionEntityMap) {
                         LogUtil.e(TAG, "permissionEntityMap.size=" + permissionEntityMap.size());
-                        DynamicPermissionEntity dynamicPermissionEntity = permissionEntityMap.get(Manifest.permission.SEND_SMS);
+                        DynamicPermissionEntity dynamicPermissionEntity = permissionEntityMap.get(Manifest.permission.CAMERA);
                         switch (dynamicPermissionEntity.getPermissionState()) {
                             case DynamicPermissionEntity.PERMISSION_DENIED:
                                 ToastUtils.showShortToast("很单纯的拒绝了权限");
@@ -68,21 +62,4 @@ public class PermissionActivity extends BaseActivity {
         });
     }
 
-    private void openCamera() {
-//        Camera camera = Camera.open(0);
-//        try {
-//            camera.setPreviewDisplay(surfaceView.getHolder());
-//            camera.startPreview();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        ToastUtils.showShortToast("权限已申请成功");
-    }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        dynamicPermissionEmitter.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
 }

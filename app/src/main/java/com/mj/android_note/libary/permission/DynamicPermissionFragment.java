@@ -24,7 +24,7 @@ import java.util.Map;
  * Description : 申请权限的fragment
  */
 
-public class DynamicPermissionFragment extends Fragment implements ActivityCompat.RequestPermissionsRequestCodeValidator{
+public class DynamicPermissionFragment extends Fragment {
 
     // 权限的请求码
     private static final int REQUEST_PERMISSION_CODE = 1000;
@@ -103,9 +103,7 @@ public class DynamicPermissionFragment extends Fragment implements ActivityCompa
      */
     @TargetApi(Build.VERSION_CODES.M)
     private void applyDynamicPermissions(String... permissions) {
-//        requestPermissions();
-        ActivityCompat.requestPermissions(activity, permissions, REQUEST_PERMISSION_CODE);
-//        activity.requestPermissions(permissions,REQUEST_PERMISSION_CODE);
+        requestPermissions(permissions, REQUEST_PERMISSION_CODE);
     }
 
     /**
@@ -170,8 +168,4 @@ public class DynamicPermissionFragment extends Fragment implements ActivityCompa
         }
     }
 
-    @Override
-    public void validateRequestPermissionsRequestCode(int i) {
-
-    }
 }
