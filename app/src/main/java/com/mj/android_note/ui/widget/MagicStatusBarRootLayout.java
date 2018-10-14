@@ -5,7 +5,6 @@ import android.content.res.TypedArray;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.mj.android_note.R;
@@ -41,8 +40,6 @@ public class MagicStatusBarRootLayout extends LinearLayout {
     private void init(Context context, AttributeSet attrs) {
         setOrientation(VERTICAL);
         initStatusColor(context, attrs);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 3000);
-        setLayoutParams(layoutParams);
     }
 
     private void initStatusColor(Context context, AttributeSet attrs) {
@@ -54,6 +51,5 @@ public class MagicStatusBarRootLayout extends LinearLayout {
         view.setBackgroundColor(statusBarColor);
         addView(view, LayoutParams.MATCH_PARENT, ScreenUtil.getStatusBarHeight());
     }
-
 
 }

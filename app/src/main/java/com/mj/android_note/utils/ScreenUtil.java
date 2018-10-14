@@ -24,16 +24,32 @@ public class ScreenUtil {
      * @return 状态栏高度
      */
     public static int getStatusBarHeight() {
-        int statusBarHeight = 0;
-        int resourceId = getContext().getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            statusBarHeight = getContext().getResources().getDimensionPixelSize(resourceId);
-        }
-        return statusBarHeight;
+        return getBarHeight("status_bar_height");
     }
 
+    /**
+     * 获取虚拟按键的高度
+     *
+     * @return 虚拟按键的高度
+     */
+    public static int getNavigationBarHeight() {
+        return getBarHeight("navigation_bar_height");
+    }
 
-
+    /**
+     * 获取状态栏 或虚拟按键高度
+     *
+     * @param barName 名称
+     * @return 高度
+     */
+    private static int getBarHeight(String barName) {
+        int BarHeight = 0;
+        int resourceId = getContext().getResources().getIdentifier(barName, "dimen", "android");
+        if (resourceId > 0) {
+            BarHeight = getContext().getResources().getDimensionPixelSize(resourceId);
+        }
+        return BarHeight;
+    }
 
 
 }
