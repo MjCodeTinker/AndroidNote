@@ -8,7 +8,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.content.PermissionChecker;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -93,7 +93,9 @@ public class DynamicPermissionFragment extends Fragment {
      * @return 是否拥有某个权限
      */
     private boolean hasPermission(String permission) {
-        return ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED;
+        //ContextCompat这种方式检查权限在小米手机上会有问题，使用PermissionChecker 检查权限会正常
+        //return ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED;
+        return PermissionChecker.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED;
     }
 
     /**

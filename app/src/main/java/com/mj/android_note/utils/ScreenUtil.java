@@ -1,6 +1,10 @@
 package com.mj.android_note.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.view.KeyCharacterMap;
+import android.view.KeyEvent;
+import android.view.ViewConfiguration;
 
 import com.mj.android_note.app.NoteApplication;
 
@@ -51,5 +55,20 @@ public class ScreenUtil {
         return BarHeight;
     }
 
+
+    /**
+     * 检查有没有导航条
+     *
+     * @param activity activity
+     * @return 是否有navigationBar
+     */
+    public static boolean checkDeviceHasNavigationBar(Activity activity) {
+        //通过判断设备是否有返回键、菜单键(不是虚拟键,是手机屏幕外的按键)来确定是否有navigation bar
+        boolean hasMenuKey = ViewConfiguration.get(activity)
+                .hasPermanentMenuKey();
+        boolean hasBackKey = KeyCharacterMap
+                .deviceHasKey(KeyEvent.KEYCODE_BACK);
+        return !hasMenuKey && !hasBackKey;
+    }
 
 }
