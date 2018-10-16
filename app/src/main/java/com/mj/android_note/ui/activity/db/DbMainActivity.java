@@ -1,7 +1,9 @@
 package com.mj.android_note.ui.activity.db;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -9,6 +11,7 @@ import com.mj.android_note.R;
 import com.mj.android_note.bean.FileOrFolderBean;
 import com.mj.android_note.data.db.DbManager;
 import com.mj.android_note.data.db.table.in.IFolder;
+import com.mj.android_note.libary.permission.DynamicPermissionEmitter;
 import com.mj.android_note.ui.activity.BaseActivity;
 import com.mj.android_note.utils.LocalResourceUtil;
 import com.mj.android_note.utils.LogUtil;
@@ -141,4 +144,5 @@ public class DbMainActivity extends BaseActivity implements View.OnClickListener
                 break;
         }
     }
+
 }

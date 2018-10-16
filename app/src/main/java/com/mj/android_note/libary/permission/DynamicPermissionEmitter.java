@@ -14,7 +14,7 @@ import java.util.Map;
  * Description : 动态权限发射器
  */
 
-public class DynamicPermissionEmitter {
+public final class DynamicPermissionEmitter {
 
     /**
      * 申请权限的回调
@@ -69,6 +69,16 @@ public class DynamicPermissionEmitter {
         dynamicPermissionFragment.checkRegisteredPermissionInManifest(permissions);
         dynamicPermissionFragment.setApplyPermissionsCallback(applyPermissionsCallback);
         dynamicPermissionFragment.commitPermission(permissions);
+    }
+
+    /**
+     * 考虑到部分地方仅仅需要检查权限,不需要请求权限，所以加了此方法
+     *
+     * @param permission permission
+     * @return 是否有某个权限
+     */
+    public boolean checkSelfPermission(String permission) {
+        return dynamicPermissionFragment.hasPermission(permission);
     }
 
 }

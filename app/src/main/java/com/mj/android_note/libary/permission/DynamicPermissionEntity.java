@@ -7,7 +7,7 @@ package com.mj.android_note.libary.permission;
  * Description : 权限的实体类
  */
 
-public class DynamicPermissionEntity {
+public final class DynamicPermissionEntity {
 
 
     //拒绝了此权限

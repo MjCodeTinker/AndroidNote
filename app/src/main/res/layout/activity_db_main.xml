@@ -30,7 +30,7 @@
             android:gravity="center_vertical"
             android:maxLines="1"
             android:textColor="#333333"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/header_more"
@@ -44,34 +44,35 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/db_folder_list"
+
+    <FrameLayout
+        android:id="@+id/db_main_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <!--<Button-->
-        <!--android:id="@+id/db_save"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="保存"-->
-        <!--android:textColor="@color/colorPrimary"-->
-        <!--android:textSize="15sp" />-->
+    <!--android:id="@+id/db_save"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="保存"-->
+    <!--android:textColor="@color/colorPrimary"-->
+    <!--android:textSize="15sp" />-->
 
     <!--<Button-->
-        <!--android:id="@+id/db_find"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="查询"-->
-        <!--android:textColor="@color/colorPrimary"-->
-        <!--android:textSize="15sp" />-->
+    <!--android:id="@+id/db_find"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="查询"-->
+    <!--android:textColor="@color/colorPrimary"-->
+    <!--android:textSize="15sp" />-->
 
     <!--<Button-->
-        <!--android:id="@+id/db_delete"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="删除"-->
-        <!--android:textColor="@color/colorPrimary"-->
-        <!--android:textSize="15sp" />-->
+    <!--android:id="@+id/db_delete"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="删除"-->
+    <!--android:textColor="@color/colorPrimary"-->
+    <!--android:textSize="15sp" />-->
 
 
 </com.mj.android_note.ui.widget.MagicStatusBarRootLayout>

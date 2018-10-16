@@ -24,7 +24,7 @@ import java.util.Map;
  * Description : 申请权限的fragment
  */
 
-public class DynamicPermissionFragment extends Fragment {
+public final class DynamicPermissionFragment extends Fragment {
 
     // 权限的请求码
     private static final int REQUEST_PERMISSION_CODE = 1000;
@@ -34,6 +34,7 @@ public class DynamicPermissionFragment extends Fragment {
     private Activity activity;
     // 申请权限的回调
     private DynamicPermissionEmitter.ApplyPermissionsCallback applyPermissionsCallback;
+    // 存放动态权限实体类与权限名称的映射关系
     private Map<String, DynamicPermissionEntity> permissionEntityMap;
 
     public void setApplyPermissionsCallback(DynamicPermissionEmitter.ApplyPermissionsCallback applyPermissionsCallback) {
@@ -92,7 +93,7 @@ public class DynamicPermissionFragment extends Fragment {
      * @param permission 权限
      * @return 是否拥有某个权限
      */
-    private boolean hasPermission(String permission) {
+    public boolean hasPermission(String permission) {
         //ContextCompat这种方式检查权限在小米手机上会有问题，使用PermissionChecker 检查权限会正常
         //return ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED;
         return PermissionChecker.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED;
