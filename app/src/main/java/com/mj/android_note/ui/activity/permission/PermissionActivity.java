@@ -3,6 +3,7 @@ package com.mj.android_note.ui.activity.permission;
 import android.Manifest;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 
 import com.mj.android_note.R;
@@ -58,6 +59,7 @@ public class PermissionActivity extends BaseActivity {
         findViewById(R.id.permission_btn_open_camera).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                ActivityCompat.requestPermissions(PermissionActivity.this,new String[]{},100);
                 dynamicPermissionEmitter.emitterPermission(callback,
                         Manifest.permission.SEND_SMS);
 //                ,
