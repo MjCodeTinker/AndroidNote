@@ -1,23 +1,23 @@
 package com.mj.android_note.ui.activity.db;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mj.android_note.R;
 import com.mj.android_note.bean.FileOrFolderBean;
 import com.mj.android_note.data.db.DbManager;
 import com.mj.android_note.data.db.table.in.IFolder;
-import com.mj.android_note.libary.permission.DynamicPermissionEmitter;
 import com.mj.android_note.ui.activity.BaseActivity;
+import com.mj.android_note.ui.window.SimpleDialog;
 import com.mj.android_note.utils.LocalResourceUtil;
 import com.mj.android_note.utils.LogUtil;
 import com.mj.android_note.utils.ThreadUtils;
 import com.mj.android_note.utils.ToastUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +28,8 @@ import java.util.List;
  */
 public class DbMainActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "DbMainActivity";
+    private TextView tvTitle;
+    private ImageView ivMore;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,12 +39,11 @@ public class DbMainActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void initView() {
-//        findViewById(R.id.db_save).setOnClickListener(this);
-//        findViewById(R.id.db_find).setOnClickListener(this);
-//        findViewById(R.id.db_delete).setOnClickListener(this);
+
+        ivMore = findViewById(R.id.header_more);
+        tvTitle = findViewById(R.id.header_title);
         findViewById(R.id.header_back).setOnClickListener(this);
-        findViewById(R.id.header_more).setOnClickListener(this);
-        TextView tvTitle = findViewById(R.id.header_title);
+        ivMore.setOnClickListener(this);
         tvTitle.setText(LocalResourceUtil.getStr(R.string.default_folder_name));
     }
 
@@ -54,20 +55,35 @@ public class DbMainActivity extends BaseActivity implements View.OnClickListener
                 finish();
                 break;
             case R.id.header_more:
-
+                menuClick();
                 break;
-//            case R.id.db_save:
-//                save();
-//                break;
-//            case R.id.db_find:
-//                findAll();
-//                break;
-//            case R.id.db_delete:
-//                delete();
-//                break;
             default:
                 break;
         }
+    }
+
+    private void menuClick() {
+        final SimpleDialog simpleDialog = new SimpleDialog(this);
+        final String newFolderStr = LocalResourceUtil.getStr(R.string.db_new_folder);
+        final String newContentStr = LocalResourceUtil.getStr(R.string.db_new_content);
+
+        List<String> contents = new ArrayList<>();
+        contents.add(newFolderStr);
+        contents.add(newContentStr);
+        simpleDialog.initListDialog(ivMore, contents, new SimpleDialog.OnItemClickListener() {
+            @Override
+            public void onclick(String itemName) {
+                if (newFolderStr.equals(itemName)) {
+
+                } else {
+
+                }
+                ToastUtils.showShortToast(itemName);
+                simpleDialog.dismiss();
+            }
+        });
+        simpleDialog.show();
+        simpleDialog.initListDialogWindow(ivMore);
     }
 
     private void delete() {
@@ -144,5 +160,23 @@ public class DbMainActivity extends BaseActivity implements View.OnClickListener
                 break;
         }
     }
+
+    /**
+     * 需要传入fragment中的接口
+     */
+    RefreshTitleCallback refreshTitleCallback = new RefreshTitleCallback() {
+        @Override
+        public void updateTitle(String titleName) {
+            if (tvTitle != null) {
+                tvTitle.setText(titleName);
+            }
+        }
+    };
+
+
+    public interface RefreshTitleCallback {
+        void updateTitle(String titleName);
+    }
+
 
 }
