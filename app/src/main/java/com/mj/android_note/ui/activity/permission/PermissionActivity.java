@@ -3,7 +3,6 @@ package com.mj.android_note.ui.activity.permission;
 import android.Manifest;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.view.View;
 
 import com.mj.android_note.R;
@@ -22,7 +21,7 @@ import java.util.Map;
  * Description : 6.0 动态权限
  */
 
-public class PermissionActivity extends BaseActivity {
+public class PermissionActivity extends BaseActivity implements DynamicPermissionEmitter.ApplyPermissionsCallback {
 
     private static final String TAG = "PermissionActivity";
     DynamicPermissionEmitter dynamicPermissionEmitter;
@@ -33,41 +32,37 @@ public class PermissionActivity extends BaseActivity {
         setContentView(R.layout.activity_permission);
 
         dynamicPermissionEmitter = new DynamicPermissionEmitter(this);
-        final DynamicPermissionEmitter.ApplyPermissionsCallback callback = new DynamicPermissionEmitter.ApplyPermissionsCallback() {
-            @Override
-            public void result(Map<String, DynamicPermissionEntity> permissionEntityMap) {
-                LogUtil.e(TAG, "permissionEntityMap.size=" + permissionEntityMap.size());
-//                DynamicPermissionEntity dynamicPermissionEntity = permissionEntityMap.get(Manifest.permission.CAMERA);
-//                switch (dynamicPermissionEntity.getPermissionState()) {
-//                    case DynamicPermissionEntity.PERMISSION_DENIED:
-//                        ToastUtils.showShortToast("很单纯的拒绝了权限");
-//                        break;
-//                    case DynamicPermissionEntity.PERMISSION_GRANTED:
-//                        ToastUtils.showShortToast("获取了权限，开始搞事情吧");
-//                        break;
-//                    case DynamicPermissionEntity.PERMISSION_DENIED_AND_SELECTED_NO_PROMPT:
-//                        ToastUtils.showShortToast("已经拒绝了权限 并且不再提示");
-//                        break;
-//                    case DynamicPermissionEntity.PERMISSION_UN_HANDLE:
-//                        ToastUtils.showShortToast("6.0以下国内厂商手机无法检查到是否拒绝了权限.请通过 try catch 处理");
-//                        break;
-//                    default:
-//                        break;
-//                }
-            }
-        };
+
         findViewById(R.id.permission_btn_open_camera).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                ActivityCompat.requestPermissions(PermissionActivity.this,new String[]{},100);
-                dynamicPermissionEmitter.emitterPermission(callback,
-                        Manifest.permission.SEND_SMS);
-//                ,
-//                Manifest.permission.CAMERA,
-//                        Manifest.permission.READ_PHONE_STATE,
-//                        Manifest.permission.ACCESS_FINE_LOCATION
+                dynamicPermissionEmitter.emitterPermission(PermissionActivity.this,
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.ACCESS_FINE_LOCATION);
             }
         });
     }
 
+    @Override
+    public void applyPermissionResult(Map<String, DynamicPermissionEntity> permissionEntityMap) {
+        LogUtil.e(TAG, "permissionEntityMap.size=" + permissionEntityMap.size());
+        DynamicPermissionEntity dynamicPermissionEntity = permissionEntityMap.get(Manifest.permission.CAMERA);
+        switch (dynamicPermissionEntity.getPermissionState()) {
+            case DynamicPermissionEntity.PERMISSION_DENIED:
+                ToastUtils.showShortToast("很单纯的拒绝了权限");
+                break;
+            case DynamicPermissionEntity.PERMISSION_GRANTED:
+                ToastUtils.showShortToast("获取了权限，开始搞事情吧");
+                break;
+            case DynamicPermissionEntity.PERMISSION_DENIED_AND_SELECTED_NO_PROMPT:
+                ToastUtils.showShortToast("已经拒绝了权限 并且不再提示");
+                break;
+            case DynamicPermissionEntity.PERMISSION_UN_HANDLE:
+                ToastUtils.showShortToast("6.0以下国内厂商手机无法检查到是否拒绝了权限.请通过 try catch 处理");
+                break;
+            default:
+                break;
+        }
+    }
 }

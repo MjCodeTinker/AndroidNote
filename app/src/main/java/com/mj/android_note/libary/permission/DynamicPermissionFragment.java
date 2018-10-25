@@ -62,7 +62,7 @@ public final class DynamicPermissionFragment extends Fragment {
                 dynamicPermissionEntity.setPermissionState(DynamicPermissionEntity.PERMISSION_UN_HANDLE);
                 permissionEntityMap.put(permission, dynamicPermissionEntity);
             }
-            applyPermissionsCallback.result(permissionEntityMap);
+            applyPermissionsCallback.applyPermissionResult(permissionEntityMap);
             return;
         }
 
@@ -77,8 +77,9 @@ public final class DynamicPermissionFragment extends Fragment {
                 unGrantedPermissions.add(permission);
             }
         }
+
         if (unGrantedPermissions.size() == 0) {
-            applyPermissionsCallback.result(permissionEntityMap);
+            applyPermissionsCallback.applyPermissionResult(permissionEntityMap);
             return;
         }
         String[] array = new String[unGrantedPermissions.size()];
@@ -167,7 +168,7 @@ public final class DynamicPermissionFragment extends Fragment {
                 }
                 permissionEntityMap.put(permission, dynamicPermissionEntity);
             }
-            applyPermissionsCallback.result(permissionEntityMap);
+            applyPermissionsCallback.applyPermissionResult(permissionEntityMap);
         }
     }
 
