@@ -3,4 +3,8 @@
     <string name="default_folder_name">笔记</string>
     <string name="db_new_folder">新建文件夹</string>
     <string name="db_new_content">收藏内容</string>
+    <string name="dialog_file_or_folder_name">名称</string>
+    <string name="dialog_file_or_folder_location">位置</string>
+    <string name="dialog_file_or_folder_cancel">取消</string>
+    <string name="dialog_file_or_folder_save">保存</string>
 </resources>

@@ -5,5 +5,10 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="white">#ffffff</color>
+    <color name="color_333333">#333333</color>
+    <color name="color_666666">#666666</color>
+    <color name="color_999999">#999999</color>
     <color name="status_bar_color">#a0a0a0</color>
+    <color name="color_e0e0e0">#e0e0e0</color>
+    <color name="db_main_color">#227AF8</color>
 </resources>

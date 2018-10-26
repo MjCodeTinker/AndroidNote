@@ -27,7 +27,7 @@ public class LauncherActivity extends Activity {
         View parentView = findViewById(R.id.launcher_parent_view);
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(parentView, BaseConstant.AnimatorPropertyName.ALPHA, 0f, 1f, 0f);
         objectAnimator.setInterpolator(new LinearInterpolator());
-        objectAnimator.setDuration(3000);
+        objectAnimator.setDuration(1000);
         objectAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <!--创建文件夹或文件的布局-->
+    <include layout="@layout/dialog_create_folder_or_file" />
+
+    <!--展示文件夹列表的布局-->
+    <include layout="@layout/dialog_folder_list" />
+
+</LinearLayout>

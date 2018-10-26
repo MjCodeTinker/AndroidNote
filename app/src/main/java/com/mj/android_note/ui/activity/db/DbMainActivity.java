@@ -1,6 +1,7 @@
 package com.mj.android_note.ui.activity.db;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
@@ -30,6 +31,7 @@ public class DbMainActivity extends BaseActivity implements View.OnClickListener
     private static final String TAG = "DbMainActivity";
     private TextView tvTitle;
     private ImageView ivMore;
+    private SimpleDialog createFolderOrFileDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,20 +75,29 @@ public class DbMainActivity extends BaseActivity implements View.OnClickListener
         simpleDialog.initListDialog(ivMore, contents, new SimpleDialog.OnItemClickListener() {
             @Override
             public void onclick(String itemName) {
-                if (newFolderStr.equals(itemName)) {
 
-                } else {
+                createFolderOrFileDialog = new SimpleDialog(DbMainActivity.this);
+                final boolean createFolder = newFolderStr.equals(itemName);
+                createFolderOrFileDialog.initCreateFolderOrFileDialog(createFolder, new SimpleDialog.FolderOrFileDialogListener<FileOrFolderBean>() {
+                    @Override
+                    public void negative() {
+                        createFolderOrFileDialog.dismiss();
+                    }
 
-                }
-                ToastUtils.showShortToast(itemName);
+                    @Override
+                    public void positive(FileOrFolderBean bean) {
+                        save(bean, createFolder);
+                    }
+                });
+                createFolderOrFileDialog.show();
                 simpleDialog.dismiss();
             }
         });
         simpleDialog.show();
-        simpleDialog.initListDialogWindow(ivMore);
+//        simpleDialog.initListDialogWindow(ivMore);
     }
 
-    private void delete() {
+    private void delete(final boolean isCreateFolder) {
         ThreadUtils.getInstance().exeDbAction(new Runnable() {
             @Override
             public void run() {
@@ -96,14 +107,14 @@ public class DbMainActivity extends BaseActivity implements View.OnClickListener
                 ThreadUtils.getInstance().postUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        handleDbResult(result);
+                        handleDbResult(isCreateFolder, result);
                     }
                 });
             }
         });
     }
 
-    private void findAll() {
+    private void findAll(final boolean isCreateFolder) {
         ThreadUtils.getInstance().exeDbAction(new Runnable() {
             @Override
             public void run() {
@@ -113,28 +124,28 @@ public class DbMainActivity extends BaseActivity implements View.OnClickListener
         });
     }
 
-    private void save() {
+    private void save(@NonNull final FileOrFolderBean fileOrFolderBean, final boolean isCreateFolder) {
         ThreadUtils.getInstance().exeDbAction(new Runnable() {
             @Override
             public void run() {
-                FileOrFolderBean fileOrFolderBean = new FileOrFolderBean();
-                fileOrFolderBean.setFileName("mj.html");
-                fileOrFolderBean.setCreateTime(System.currentTimeMillis());
                 final int result = DbManager.getInstance().getFolderTable().insertFileOrFolder(fileOrFolderBean);
                 ThreadUtils.getInstance().postUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        handleDbResult(result);
+                        handleDbResult(isCreateFolder, result);
                     }
                 });
             }
         });
     }
 
-    private void handleDbResult(int result) {
+    private void handleDbResult(boolean isCreateFolder, int result) {
         switch (result) {
             case IFolder.ResultCode.SUCCESS:
-                ToastUtils.showShortToast("操作成功");
+                if (createFolderOrFileDialog != null && createFolderOrFileDialog.isShowing()) {
+                    createFolderOrFileDialog.dismiss();
+                }
+                ToastUtils.showShortToast(isCreateFolder ? "创建文件夹成功" : "保存文件成功");
                 break;
             case IFolder.ResultCode.ERROR_FILE_EXIST:
                 ToastUtils.showShortToast("文件已经存在");
@@ -155,6 +166,7 @@ public class DbMainActivity extends BaseActivity implements View.OnClickListener
                 ToastUtils.showShortToast("文件夹名字不能为空");
                 break;
             case IFolder.ResultCode.ERROR_UN_KNOW:
+                ToastUtils.showShortToast("未知错误");
                 break;
             default:
                 break;

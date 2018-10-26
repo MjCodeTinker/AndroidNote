@@ -35,11 +35,11 @@
         <ImageView
             android:id="@+id/header_more"
             android:layout_width="55dp"
-            android:layout_height="45dp"
-            android:paddingBottom="10dp"
+            android:layout_height="46dp"
+            android:paddingBottom="10.5dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:paddingTop="10dp"
+            android:paddingTop="10.5dp"
             android:src="@drawable/selector_more" />
 
     </LinearLayout>
