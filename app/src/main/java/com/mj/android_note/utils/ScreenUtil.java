@@ -1,11 +1,11 @@
 package com.mj.android_note.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
-import android.view.KeyCharacterMap;
-import android.view.KeyEvent;
-import android.view.ViewConfiguration;
+import android.os.Build;
+import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.WindowManager;
 
 import com.mj.android_note.app.NoteApplication;
 
@@ -58,18 +58,80 @@ public class ScreenUtil {
 
 
     /**
-     * 检查有没有导航条
-     *
-     * @param activity activity
-     * @return 是否有navigationBar
+     * 检查设备是否有Navigation bar
+     * @param context context
+     * @return 是否有NavigationBar
      */
-    public static boolean checkDeviceHasNavigationBar(Activity activity) {
-        //通过判断设备是否有返回键、菜单键(不是虚拟键,是手机屏幕外的按键)来确定是否有navigation bar
-        boolean hasMenuKey = ViewConfiguration.get(activity)
-                .hasPermanentMenuKey();
-        boolean hasBackKey = KeyCharacterMap
-                .deviceHasKey(KeyEvent.KEYCODE_BACK);
-        return !hasMenuKey && !hasBackKey;
+    public static boolean checkDeviceHasNavigationBar(Context context) {
+        Display display = getDisplay(context);
+        if (display == null) {
+            return false;
+        }
+        int screenHeight = getScreenHeight(context);
+        int screenRealHeight = getScreenRealHeight(context);
+        return screenRealHeight - screenHeight > 0;
+    }
+
+    /**
+     * 获取屏幕高度
+     *
+     * @param context context
+     * @return 获取屏幕高度
+     */
+    public static int getScreenHeight(Context context) {
+        Display display = getDisplay(context);
+        if (display == null) {
+            return 0;
+        }
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        display.getMetrics(displayMetrics);
+        return displayMetrics.heightPixels;
+    }
+
+
+    /**
+     * 获取屏幕的真是高度
+     *
+     * @param context context
+     * @return 屏幕的真是高度
+     */
+    public static int getScreenRealHeight(Context context) {
+        Display display = getDisplay(context);
+        if (display == null) {
+            return 0;
+        }
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            display.getRealMetrics(displayMetrics);
+        } else {
+            display.getMetrics(displayMetrics);
+        }
+        return displayMetrics.heightPixels;
+    }
+
+
+    /**
+     * 获取display
+     *
+     * @param context context
+     * @return display 对象
+     */
+    private static Display getDisplay(Context context) {
+        WindowManager windowManager = getWindowManager(context);
+        if (windowManager != null) {
+            return windowManager.getDefaultDisplay();
+        }
+        return null;
+    }
+
+    /**
+     * 获取windowsManager
+     *
+     * @param context context
+     * @return windowsManager
+     */
+    private static WindowManager getWindowManager(Context context) {
+        return (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
     }
 
 
