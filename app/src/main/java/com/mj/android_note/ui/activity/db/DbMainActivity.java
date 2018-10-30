@@ -3,6 +3,8 @@ package com.mj.android_note.ui.activity.db;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,8 +12,10 @@ import android.widget.TextView;
 import com.mj.android_note.R;
 import com.mj.android_note.bean.FileOrFolderBean;
 import com.mj.android_note.data.db.DbManager;
+import com.mj.android_note.data.db.table.DbFolderImpl;
 import com.mj.android_note.data.db.table.in.IFolder;
 import com.mj.android_note.ui.activity.BaseActivity;
+import com.mj.android_note.ui.fragment.db.DbFolderFragment;
 import com.mj.android_note.ui.window.SimpleDialog;
 import com.mj.android_note.utils.LocalResourceUtil;
 import com.mj.android_note.utils.LogUtil;
@@ -29,15 +33,43 @@ import java.util.List;
  */
 public class DbMainActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "DbMainActivity";
+    private static final String KEY_PARENT_FOLDER_ID = "key_parent_folder_id";
     private TextView tvTitle;
     private ImageView ivMore;
     private SimpleDialog createFolderOrFileDialog;
+    private DbFolderFragment dbFolderFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_db_main);
         initView();
+        initFragment(savedInstanceState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        savedInstanceState.putString(KEY_PARENT_FOLDER_ID, DbFolderImpl.DEFAULT_PARENT_FOLDER_ID);
+    }
+
+    private void initFragment(Bundle savedInstanceState) {
+        dbFolderFragment = (DbFolderFragment) getSupportFragmentManager().findFragmentByTag(DbFolderFragment.TAG);
+        if (dbFolderFragment == null) {
+            dbFolderFragment = DbFolderFragment.newInstance(null);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.db_main_fragment_container, dbFolderFragment)
+                    .commitNow();
+        }
+
+        if (savedInstanceState != null) {
+            String parentFolderId = savedInstanceState.getString(KEY_PARENT_FOLDER_ID);
+            if (!TextUtils.isEmpty(parentFolderId)) {
+                dbFolderFragment.refreshUi(Integer.parseInt(parentFolderId));
+            }
+        }
+
     }
 
     private void initView() {
