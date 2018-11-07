@@ -3,6 +3,7 @@ package com.mj.android_note.ui.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -27,14 +28,12 @@ public abstract class BaseFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewParent parent = rootView.getParent();
-        if (parent == null) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        if (rootView == null) {
             rootView = inflater.inflate(getLayoutId(), container, false);
-        } else {
-            ViewGroup v = (ViewGroup) parent;
-            v.removeView(rootView);
         }
+
         init();
         return rootView;
     }

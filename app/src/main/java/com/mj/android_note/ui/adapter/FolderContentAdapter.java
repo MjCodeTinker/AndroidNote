@@ -6,9 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.mj.android_note.R;
 import com.mj.android_note.bean.FileOrFolderBean;
+import com.mj.android_note.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +44,15 @@ public class FolderContentAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         VH vh = (VH) viewHolder;
         FileOrFolderBean fileOrFolderBean = data.get(i);
+        vh.ivType.setImageResource(fileOrFolderBean.isFolder() ? R.drawable.ic_db_folder : R.drawable.arrow_down);
+        vh.tvName.setText(fileOrFolderBean.isFolder() ? fileOrFolderBean.getFolderName() : fileOrFolderBean.getFileName());
+        vh.tvTime.setText(DateUtils.convertTimeStampToStr(fileOrFolderBean.getCreateTime(), DateUtils.YMD_HS));
+        vh.rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override
@@ -49,8 +62,17 @@ public class FolderContentAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private static class VH extends RecyclerView.ViewHolder {
 
+        LinearLayout rootView;
+        ImageView ivType;
+        TextView tvName;
+        TextView tvTime;
+
         VH(@NonNull View itemView) {
             super(itemView);
+            rootView = itemView.findViewById(R.id.folder_content_root_view);
+            ivType = itemView.findViewById(R.id.folder_content_iv_type);
+            tvName = itemView.findViewById(R.id.folder_content_tv_name);
+            tvTime = itemView.findViewById(R.id.folder_content_tv_time);
         }
     }
 }
