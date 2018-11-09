@@ -14,8 +14,8 @@ import com.mj.android_note.utils.constant.ExceptionMessageConstant;
 public class LogUtil {
     //是否为debug模式
     private static final boolean isDebug = AppConfig.AppEnv.isDebug;
-    private static final String APP_SPECIAL_LOG_START = "##logStart##";
-    private static final String APP_SPECIAL_LOG_END = "##logEnd##";
+    private static final String APP_SPECIAL_LOG_START = ">>logStart>>>>>>>>>>>>>";
+    private static final String APP_SPECIAL_LOG_END = ">>>>>>>>>>>>>>>logEnd>>";
 
     private LogUtil() {
         throw new UnsupportedOperationException(ExceptionMessageConstant.UN_SUPPORT_INSTANTIATE_MSG);

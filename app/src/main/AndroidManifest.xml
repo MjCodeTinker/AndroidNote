@@ -6,6 +6,9 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
+
 
     <application
         android:name=".app.NoteApplication"
@@ -25,6 +28,7 @@
         <activity android:name=".ui.activity.MainActivity" />
         <activity android:name=".ui.activity.db.DbMainActivity" />
         <activity android:name=".ui.activity.permission.PermissionActivity" />
+
     </application>
 
 </manifest>
