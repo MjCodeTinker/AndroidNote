@@ -1,5 +1,6 @@
 package com.mj.android_note.libary.permission;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -28,7 +29,7 @@ public final class DynamicPermissionFragment extends Fragment {
 
     // 权限的请求码
     private static final int REQUEST_PERMISSION_CODE = 1000;
-    private static final String TAG = "CandyPermissionFragment";
+    private static final String TAG = "DynamicPermissionFragment";
 
     // activity
     private Activity activity;
@@ -39,6 +40,7 @@ public final class DynamicPermissionFragment extends Fragment {
 
     public void setApplyPermissionsCallback(DynamicPermissionEmitter.ApplyPermissionsCallback applyPermissionsCallback) {
         this.applyPermissionsCallback = applyPermissionsCallback;
+
     }
 
     public static DynamicPermissionFragment newInstance() {
@@ -54,7 +56,7 @@ public final class DynamicPermissionFragment extends Fragment {
     public void commitPermission(String... permissions) {
         permissionEntityMap = new HashMap<>();
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT < 23) {
             //6.0 以下 无法检测到权限
             for (String permission : permissions) {
                 DynamicPermissionEntity dynamicPermissionEntity = new DynamicPermissionEntity();
@@ -62,7 +64,9 @@ public final class DynamicPermissionFragment extends Fragment {
                 dynamicPermissionEntity.setPermissionState(DynamicPermissionEntity.PERMISSION_UN_HANDLE);
                 permissionEntityMap.put(permission, dynamicPermissionEntity);
             }
-            applyPermissionsCallback.applyPermissionResult(permissionEntityMap);
+            if (applyPermissionsCallback != null) {
+                applyPermissionsCallback.applyPermissionResult(permissionEntityMap);
+            }
             return;
         }
 
@@ -79,15 +83,14 @@ public final class DynamicPermissionFragment extends Fragment {
         }
 
         if (unGrantedPermissions.size() == 0) {
-            applyPermissionsCallback.applyPermissionResult(permissionEntityMap);
+            if (applyPermissionsCallback != null) {
+                applyPermissionsCallback.applyPermissionResult(permissionEntityMap);
+            }
             return;
         }
-        String[] array = new String[unGrantedPermissions.size()];
-        for (int i = 0; i < unGrantedPermissions.size(); i++) {
-            array[i] = unGrantedPermissions.get(i);
-        }
+
         // 开始请求权限
-        applyDynamicPermissions(array);
+        applyDynamicPermissions(unGrantedPermissions.toArray(new String[]{}));
     }
 
     /**
@@ -97,7 +100,8 @@ public final class DynamicPermissionFragment extends Fragment {
     public boolean hasPermission(String permission) {
         //ContextCompat这种方式检查权限在小米手机上会有问题，使用PermissionChecker 检查权限会正常
         //return ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED;
-        return PermissionChecker.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED;
+        return Build.VERSION.SDK_INT < 23 ||
+                PermissionChecker.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED;
     }
 
     /**
@@ -105,7 +109,7 @@ public final class DynamicPermissionFragment extends Fragment {
      *
      * @param permissions 权限list
      */
-    @TargetApi(Build.VERSION_CODES.M)
+    @TargetApi(23)
     private void applyDynamicPermissions(String... permissions) {
         requestPermissions(permissions, REQUEST_PERMISSION_CODE);
     }
@@ -115,6 +119,7 @@ public final class DynamicPermissionFragment extends Fragment {
      *
      * @param permissions 权限列表
      */
+    @SuppressLint("LongLogTag")
     public void checkRegisteredPermissionInManifest(String... permissions) {
         PackageManager pm = activity.getPackageManager();
         if (pm != null) {
@@ -150,6 +155,10 @@ public final class DynamicPermissionFragment extends Fragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (activity == null || activity.isFinishing()) {
+            // 页面关闭不处理结果
+            return;
+        }
         if (REQUEST_PERMISSION_CODE == requestCode && permissions.length == grantResults.length) {
 
             for (int i = 0; i < permissions.length; i++) {
@@ -166,9 +175,15 @@ public final class DynamicPermissionFragment extends Fragment {
                         dynamicPermissionEntity.setPermissionState(DynamicPermissionEntity.PERMISSION_DENIED);
                     }
                 }
-                permissionEntityMap.put(permission, dynamicPermissionEntity);
+                if (permissionEntityMap != null) {
+                    permissionEntityMap.put(permission, dynamicPermissionEntity);
+                }
             }
-            applyPermissionsCallback.applyPermissionResult(permissionEntityMap);
+            if (permissionEntityMap != null && permissionEntityMap.size() != 0) {
+                if (applyPermissionsCallback != null) {
+                    applyPermissionsCallback.applyPermissionResult(permissionEntityMap);
+                }
+            }
         }
     }
 

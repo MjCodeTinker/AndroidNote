@@ -40,6 +40,24 @@ public final class DynamicPermissionEntity {
         this.permissionState = permissionState;
     }
 
+    /**
+     * 6.0 以下也默认为已经有权限
+     *
+     * @return 是否授予了某项权限
+     */
+    public boolean isGranted() {
+        return permissionState == PERMISSION_GRANTED || permissionState == PERMISSION_UN_HANDLE;
+    }
+
+    /**
+     * 用户已经勾选了不在提示
+     *
+     * @return 是否应该给用户一个友好的提示
+     */
+    public boolean shouldShowRequestPermissionRationable() {
+        return permissionState == PERMISSION_DENIED_AND_SELECTED_NO_PROMPT;
+    }
+
     @Override
     public String toString() {
         return "DynamicPermissionEntity{" +
