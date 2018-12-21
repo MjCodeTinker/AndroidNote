@@ -6,9 +6,10 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.mj.android_note.R;
+import com.mj.android_note.base.BaseActivity;
 import com.mj.android_note.libary.permission.DynamicPermissionEmitter;
 import com.mj.android_note.libary.permission.DynamicPermissionEntity;
-import com.mj.android_note.ui.activity.BaseActivity;
+
 import com.mj.android_note.utils.LogUtil;
 import com.mj.android_note.utils.ToastUtils;
 

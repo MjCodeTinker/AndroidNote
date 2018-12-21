@@ -9,11 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mj.android_note.R;
+import com.mj.android_note.base.BaseActivity;
 import com.mj.android_note.bean.FileOrFolderBean;
 import com.mj.android_note.data.db.DbManager;
 import com.mj.android_note.data.db.table.DbFolderImpl;
 import com.mj.android_note.data.db.table.in.IFolder;
-import com.mj.android_note.ui.activity.BaseActivity;
 import com.mj.android_note.ui.fragment.db.DbFolderFragment;
 import com.mj.android_note.ui.window.SimpleDialog;
 import com.mj.android_note.utils.LocalResourceUtil;
