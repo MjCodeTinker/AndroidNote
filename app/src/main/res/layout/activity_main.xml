@@ -2,8 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+
+
+    <!--<com.airbnb.lottie.LottieAnimationView-->
+        <!--android:scaleType="centerCrop"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:lottie_autoPlay="true"-->
+        <!--app:lottie_scale="0.1"-->
+        <!--app:lottie_colorFilter="#ff0000"-->
+        <!--app:lottie_loop="true"-->
+        <!--app:lottie_fileName="data.json"-->
+        <!--android:id="@+id/lottieView"/>-->
+
+
+   <com.airbnb.lottie.LottieAnimationView
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/lottieView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
 
 
     <Button

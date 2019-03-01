@@ -4,8 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
+import com.airbnb.lottie.Cancellable;
+import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.LottieComposition;
+import com.airbnb.lottie.OnCompositionLoadedListener;
 import com.mj.android_note.R;
 import com.mj.android_note.libary.adaptive.StartSystemSettingPageImpl;
 import com.mj.android_note.libary.adaptive.SystemSettingPageEntity;
@@ -20,10 +25,20 @@ import com.mj.android_note.ui.activity.db.DbMainActivity;
  */
 public class MainActivity extends Activity {
 
+    private static final String TAG = "MainActivity";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        final LottieAnimationView lottieView = findViewById(R.id.lottieView);
+//        lottieView.setImageAssetsFolder("images/");
+//        lottieView.setImageAssetsFolder("/");
+//        lottieView.setImageAssetsFolder();
+//        lottieView.setAnimation("data.json");
+//        lottieView.loop(true);
 
         findViewById(R.id.main_activity_btn_db).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,6 +47,26 @@ public class MainActivity extends Activity {
                 startActivity(intent);
             }
         });
+        lottieView.setImageAssetsFolder("lottie/images/");
+        Cancellable cancellable = LottieComposition.Factory.fromAssetFileName(this, "lottie/data.json", new OnCompositionLoadedListener() {
+            @Override
+            public void onCompositionLoaded(@Nullable LottieComposition composition) {
+                if (composition != null) {
+                    lottieView.setComposition(composition);
+                }
+
+                lottieView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        lottieView.playAnimation();
+                        Log.d(TAG,"duration="+lottieView.getDuration());
+                    }
+                }, 2000);
+            }
+        });
+
+
+
 
         findViewById(R.id.main_activity_btn_permission).setOnClickListener(new View.OnClickListener() {
             @Override
