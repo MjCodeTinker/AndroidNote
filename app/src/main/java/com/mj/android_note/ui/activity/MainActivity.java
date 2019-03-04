@@ -3,6 +3,7 @@ package com.mj.android_note.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,8 @@ import com.mj.android_note.libary.adaptive.StartSystemSettingPageImpl;
 import com.mj.android_note.libary.adaptive.SystemSettingPageEntity;
 import com.mj.android_note.module.process.MainProcessActivity;
 import com.mj.android_note.ui.activity.db.DbMainActivity;
+import com.mj.lib.base.communication.app_inner.annotation.Subscriber;
+import com.mj.lib.base.communication.app_inner.type.ThreadMode;
 
 /**
  * Author      : MJ
@@ -85,6 +88,13 @@ public class MainActivity extends Activity {
             }
         });
 
+
+    }
+
+
+
+    @Subscriber(threadMode = ThreadMode.MAIN)
+    public void getMessage(Message message){
 
     }
 

@@ -1,0 +1,8 @@
+ext {
+    //sdk编译版本
+    COMPILE_SDK_VERSION = 28
+    //最小要求的sdk版本
+    MIN_SDK_VERSION = 14
+    //sdk目标版本
+    TARGET_SDK_VERSION = 28
+}
