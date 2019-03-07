@@ -75,62 +75,20 @@ public class MainActivity extends Activity {
         findViewById(R.id.main_activity_btn_permission).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                SystemSettingPageEntity adaptationEntity = new SystemSettingPageEntity();
-//                adaptationEntity.setContext(MainActivity.this);
-//                new StartSystemSettingPageImpl().beganToFit(adaptationEntity);
-
-                MessageTrain.getDefault().post(new UserInfo("MjCodeTinker", "25岁"));
-
+                SystemSettingPageEntity adaptationEntity = new SystemSettingPageEntity();
+                adaptationEntity.setContext(MainActivity.this);
+                new StartSystemSettingPageImpl().beganToFit(adaptationEntity);
             }
         });
 
         findViewById(R.id.main_activity_btn_process_communication).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                MainProcessActivity.launcher(MainActivity.this);
-                MessageTrain.getDefault().post(new LogMsg("日志信息"));
+                MainProcessActivity.launcher(MainActivity.this);
             }
         });
 
 
     }
 
-
-    @Subscriber(threadMode = ThreadMode.MAIN)
-    public void showMessage(UserInfo userInfo) {
-        ToastUtils.showShortToast(userInfo.name + "--" + userInfo.age + "--thread=" + Thread.currentThread().getName());
-    }
-
-    @Subscriber(threadMode = ThreadMode.WORK_THREAD)
-    public void logMessage(LogMsg logMsg) {
-        LogUtil.e(TAG, "logMsg=" + logMsg.text + "--thread=" + Thread.currentThread().getName());
-    }
-
-
-    class UserInfo {
-
-        public UserInfo(String name, String age) {
-            this.name = name;
-            this.age = age;
-        }
-
-        String name;
-        String age;
-    }
-
-    class LogMsg {
-
-        public LogMsg(String text) {
-            this.text = text;
-        }
-
-        String text;
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        MessageTrain.getDefault().unRegister(this);
-        super.onDestroy();
-    }
 }

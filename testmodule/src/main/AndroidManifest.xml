@@ -16,6 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--测试MessageTrain 框架的页面-->
+        <activity android:name=".test_message_train.TestMessageTrainActivity" />
     </application>
 
 </manifest>

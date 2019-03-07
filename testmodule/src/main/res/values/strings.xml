@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TestModule</string>
+    <string name="messageTrain">测试MessageTrain</string>
+    <string name="show_toast">Show Toast</string>
+    <string name="print_log">print_log</string>
+    <string name="send_msg_to_fragment">send_msg_to_fragment</string>
 </resources>
