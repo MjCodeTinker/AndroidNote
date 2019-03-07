@@ -32,23 +32,12 @@ public class MethodInfo {
         return params;
     }
 
-    public void setParams(Class<?> params) {
-        this.params = params;
-    }
-
     public ThreadMode getThreadMode() {
         return threadMode;
-    }
-
-    public void setThreadMode(ThreadMode threadMode) {
-        this.threadMode = threadMode;
     }
 
     public Method getMethod() {
         return method;
     }
 
-    public void setMethod(Method method) {
-        this.method = method;
-    }
 }

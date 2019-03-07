@@ -1,9 +1,10 @@
-apply plugin: 'com.android.library'
+apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion = COMPILE_SDK_VERSION
+    compileSdkVersion COMPILE_SDK_VERSION
 
     defaultConfig {
+        applicationId "com.mj.test.module"
         minSdkVersion MIN_SDK_VERSION
         targetSdkVersion TARGET_SDK_VERSION
         versionCode 1
@@ -26,5 +27,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     implementation 'com.android.support:appcompat-v7:' + APP_COMPAT_V7_VERSION
+    implementation 'com.android.support.constraint:constraint-layout:' + CONSTRAINT_LAYOUT_VERSION
 }

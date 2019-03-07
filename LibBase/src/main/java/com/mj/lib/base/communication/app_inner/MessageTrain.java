@@ -62,7 +62,7 @@ public class MessageTrain {
 
         if (iterator.hasNext()) {
             final Object subscriberClass = iterator.next();
-            List<MethodInfo> methodInfoList = registers.get(message);
+            List<MethodInfo> methodInfoList = registers.get(subscriberClass);
             for (MethodInfo methodInfo : methodInfoList) {
 
                 final Method method = methodInfo.getMethod();
