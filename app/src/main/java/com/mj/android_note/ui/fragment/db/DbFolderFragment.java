@@ -9,7 +9,7 @@ import com.mj.android_note.bean.FileOrFolderBean;
 import com.mj.android_note.data.db.DbManager;
 import com.mj.android_note.ui.adapter.FolderContentAdapter;
 import com.mj.android_note.ui.fragment.BaseFragment;
-import com.mj.android_note.utils.ThreadUtils;
+import com.mj.lib.base.thread.ThreadUtils;
 
 import java.util.List;
 

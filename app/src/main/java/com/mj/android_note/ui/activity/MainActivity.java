@@ -3,25 +3,15 @@ package com.mj.android_note.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
-
-import com.airbnb.lottie.Cancellable;
 import com.airbnb.lottie.LottieAnimationView;
-import com.airbnb.lottie.LottieComposition;
-import com.airbnb.lottie.OnCompositionLoadedListener;
 import com.mj.android_note.R;
 import com.mj.android_note.libary.adaptive.StartSystemSettingPageImpl;
 import com.mj.android_note.libary.adaptive.SystemSettingPageEntity;
 import com.mj.android_note.module.process.MainProcessActivity;
 import com.mj.android_note.ui.activity.db.DbMainActivity;
-import com.mj.android_note.utils.LogUtil;
-import com.mj.android_note.utils.ToastUtils;
 import com.mj.lib.base.communication.app_inner.MessageTrain;
-import com.mj.lib.base.communication.app_inner.annotation.Subscriber;
-import com.mj.lib.base.communication.app_inner.type.ThreadMode;
 
 /**
  * Author      : MJ

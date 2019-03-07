@@ -10,8 +10,8 @@ import com.mj.android_note.base.BaseActivity;
 import com.mj.android_note.libary.permission.DynamicPermissionEmitter;
 import com.mj.android_note.libary.permission.DynamicPermissionEntity;
 
-import com.mj.android_note.utils.LogUtil;
 import com.mj.android_note.utils.ToastUtils;
+import com.mj.lib.base.log.LogUtil;
 
 import java.util.Map;
 

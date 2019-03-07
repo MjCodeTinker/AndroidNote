@@ -5,13 +5,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 import com.mj.lib.base.communication.app_inner.MessageTrain;
 import com.mj.lib.base.communication.app_inner.annotation.Subscriber;
 import com.mj.lib.base.communication.app_inner.type.ThreadMode;
+import com.mj.lib.base.log.LogUtil;
+import com.mj.lib.base.thread.ThreadUtils;
+import com.mj.lib.base.ui.ToastUtils;
 import com.mj.test.module.R;
+import com.mj.test.module.test_message_train.bean.FragmentMsg;
 import com.mj.test.module.test_message_train.bean.LogMsg;
 import com.mj.test.module.test_message_train.bean.UserInfo;
 
@@ -58,7 +60,7 @@ public class TestMessageTrainActivity extends AppCompatActivity implements View.
                 MessageTrain.getDefault().post(new LogMsg("日志信息"));
                 break;
             case R.id.test_message_train_btn_send_msg_to_fragment:
-                MessageTrain.getDefault().post(new UserInfo("老龄化程序员", "~~到了翻车的年纪"));
+                MessageTrain.getDefault().post(new FragmentMsg("小鲜肉程序员一枚 ~~ 全力冲刺中..."));
                 break;
             default:
                 break;
@@ -68,15 +70,21 @@ public class TestMessageTrainActivity extends AppCompatActivity implements View.
 
     @Subscriber(threadMode = ThreadMode.MAIN)
     public void showMessage(UserInfo userInfo) {
-        Toast.makeText(this, userInfo.name + "--" + userInfo.age + "--thread=" + Thread.currentThread().getName(), Toast.LENGTH_SHORT).show();
+        ToastUtils.showShortToast(TestMessageTrainActivity.this, userInfo.name + "--" + userInfo.age + "--thread=" + Thread.currentThread().getName());
     }
 
     @SuppressLint("LongLogTag")
     @Subscriber(threadMode = ThreadMode.WORK_THREAD)
     public void logMessage(LogMsg logMsg) {
-        Log.e(TAG, "logMsg=" + logMsg.text + "--thread=" + Thread.currentThread().getName());
+        final String threadName = Thread.currentThread().getName();
+        ThreadUtils.getInstance().postUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ToastUtils.showShortToast(TestMessageTrainActivity.this, "收到打印日志消息，消息发送的线程是 ： " + threadName);
+            }
+        });
+        LogUtil.e(TAG, "logMsg=" + logMsg.text + "--thread=" + threadName);
     }
-
 
     @Override
     protected void onDestroy() {

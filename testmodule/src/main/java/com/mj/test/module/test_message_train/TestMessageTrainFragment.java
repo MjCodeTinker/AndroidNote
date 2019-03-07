@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.mj.lib.base.communication.app_inner.MessageTrain;
 import com.mj.lib.base.communication.app_inner.annotation.Subscriber;
 import com.mj.test.module.R;
-import com.mj.test.module.test_message_train.bean.UserInfo;
+import com.mj.test.module.test_message_train.bean.FragmentMsg;
 
 /**
  * Author      : MJ
@@ -43,8 +43,8 @@ public class TestMessageTrainFragment extends Fragment {
     }
 
     @Subscriber
-    public void showMessage(UserInfo userInfo) {
-        textView.setText(userInfo.toString());
+    public void showMessage(FragmentMsg FragmentMsg) {
+        textView.setText(FragmentMsg.msg);
     }
 
     @Override

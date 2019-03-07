@@ -1,4 +1,4 @@
-package com.mj.android_note.utils;
+package com.mj.lib.base.thread;
 
 import android.os.Handler;
 import android.os.Looper;

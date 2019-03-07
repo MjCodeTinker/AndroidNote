@@ -58,11 +58,11 @@ public class MessageTrain {
     public void post(final Object message) {
 
         Set<Object> keySet = registers.keySet();
-        Iterator<Object> iterator = keySet.iterator();
 
-        if (iterator.hasNext()) {
-            final Object subscriberClass = iterator.next();
+        for (final Object subscriberClass : keySet) {
+
             List<MethodInfo> methodInfoList = registers.get(subscriberClass);
+
             for (MethodInfo methodInfo : methodInfoList) {
 
                 final Method method = methodInfo.getMethod();

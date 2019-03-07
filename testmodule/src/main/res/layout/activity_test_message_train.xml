@@ -5,14 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <Button
         android:id="@+id/test_message_train_btn_show_toast"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/show_toast"
         android:textAllCaps="false"
-        app:layout_constraintBottom_toTopOf="@id/test_message_train_btn_print_log"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,7 +21,6 @@
         android:layout_height="wrap_content"
         android:text="@string/print_log"
         android:textAllCaps="false"
-        app:layout_constraintBottom_toTopOf="@id/test_message_train_btn_send_msg_to_fragment"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/test_message_train_btn_show_toast" />
@@ -35,20 +32,19 @@
         android:layout_height="wrap_content"
         android:text="@string/send_msg_to_fragment"
         android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="@id/test_message_train_btn_print_log"
-        app:layout_constraintBottom_toTopOf="@id/test_message_train_container"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/test_message_train_btn_print_log" />
 
     <FrameLayout
         android:id="@+id/test_message_train_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/test_message_train_btn_send_msg_to_fragment"
+        app:layout_constraintVertical_weight="1"
         tools:ignore="UselessLeaf" />
-
 
 </android.support.constraint.ConstraintLayout>

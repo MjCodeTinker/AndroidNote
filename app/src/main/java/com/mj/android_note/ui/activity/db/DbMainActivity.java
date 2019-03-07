@@ -17,9 +17,9 @@ import com.mj.android_note.data.db.table.in.IFolder;
 import com.mj.android_note.ui.fragment.db.DbFolderFragment;
 import com.mj.android_note.ui.window.SimpleDialog;
 import com.mj.android_note.utils.LocalResourceUtil;
-import com.mj.android_note.utils.LogUtil;
-import com.mj.android_note.utils.ThreadUtils;
 import com.mj.android_note.utils.ToastUtils;
+import com.mj.lib.base.log.LogUtil;
+import com.mj.lib.base.thread.ThreadUtils;
 
 import java.util.ArrayList;
 import java.util.List;

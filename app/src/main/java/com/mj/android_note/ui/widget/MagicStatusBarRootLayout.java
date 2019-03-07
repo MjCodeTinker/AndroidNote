@@ -6,11 +6,10 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
-
 import com.mj.android_note.R;
 import com.mj.android_note.utils.LocalResourceUtil;
-import com.mj.android_note.utils.LogUtil;
 import com.mj.android_note.utils.ScreenUtil;
+import com.mj.lib.base.log.LogUtil;
 
 /**
  * Author      : MJ
@@ -20,7 +19,6 @@ import com.mj.android_note.utils.ScreenUtil;
  */
 
 public class MagicStatusBarRootLayout extends LinearLayout {
-
 
     private static final String TAG = "MagicStatusBarRootLayout";
 

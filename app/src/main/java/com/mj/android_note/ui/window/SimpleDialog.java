@@ -22,8 +22,8 @@ import android.widget.TextView;
 import com.mj.android_note.R;
 import com.mj.android_note.bean.FileOrFolderBean;
 import com.mj.android_note.ui.adapter.DialogListAdapter;
-import com.mj.android_note.utils.LogUtil;
 import com.mj.android_note.utils.ScreenUtil;
+import com.mj.lib.base.log.LogUtil;
 
 import java.util.List;
 
