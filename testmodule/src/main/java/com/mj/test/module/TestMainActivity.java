@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import com.mj.test.module.test_message_train.TestMessageTrainActivity;
+import com.mj.test.module.test_utils.TestUtilsActivity;
 
 public class TestMainActivity extends AppCompatActivity {
 
@@ -13,6 +14,7 @@ public class TestMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_main);
         bindBtn(R.id.test_main_btn_message_train, TestMessageTrainActivity.class);
+        bindBtn(R.id.test_main_btn_utils, TestUtilsActivity.class);
     }
 
     private void bindBtn(int id, final Class<?> testMessageTrainActivityClass) {

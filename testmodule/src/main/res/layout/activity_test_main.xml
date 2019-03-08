@@ -14,9 +14,18 @@
         android:layout_height="wrap_content"
         android:text="@string/messageTrain"
         android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/test_main_btn_utils"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/utils"
+        android:textAllCaps="false"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/test_main_btn_message_train" />
 
 </android.support.constraint.ConstraintLayout>

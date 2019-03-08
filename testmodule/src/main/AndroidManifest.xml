@@ -18,6 +18,8 @@
         </activity>
         <!--测试MessageTrain 框架的页面-->
         <activity android:name=".test_message_train.TestMessageTrainActivity" />
+        <!--测试工具类相关的页面-->
+        <activity android:name=".test_utils.TestUtilsActivity" />
     </application>
 
 </manifest>
