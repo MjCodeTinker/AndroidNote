@@ -21,6 +21,11 @@ public class AppPathUtils {
 
     private static Context applicationContext;
 
+    /**
+     * 建议在application 入口处调用 初始化
+     *
+     * @param context context
+     */
     public static void init(Context context) {
         applicationContext = context.getApplicationContext();
     }
