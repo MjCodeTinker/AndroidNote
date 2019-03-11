@@ -3,6 +3,8 @@ package com.mj.lib.base.physical_storage;
 import android.content.Context;
 import android.text.TextUtils;
 
+import java.io.File;
+
 /**
  * Author      : MJ
  * Date        : 2019/3/8--17:32
@@ -25,24 +27,24 @@ public class AppPathUtils {
 
 
     /**
-     * @return 获取app私有路径 data/data/packageName
+     * @return 获取app私有路径 data/data/packageName/
      */
     public static String getAppPrivatePath() {
-        return subAppPrivatePathsDir(getAppPrivateFilesPath());
+        return subAppPrivatePathsDir(applicationContext.getFilesDir().getPath()) + File.separator;
     }
 
     /**
-     * @return 获取app私有file路径 data/data/packageName/files
+     * @return 获取app私有file路径 data/data/packageName/files/
      */
     public static String getAppPrivateFilesPath() {
-        return applicationContext.getFilesDir().getPath();
+        return applicationContext.getFilesDir().getPath() + File.separator;
     }
 
     /**
-     * @return 获取app私有cache路径 data/data/packageName/caches
+     * @return 获取app私有cache路径 data/data/packageName/caches/
      */
     public static String getAppPrivateCachesPath() {
-        return applicationContext.getCacheDir().getPath();
+        return applicationContext.getCacheDir().getPath() + File.separator;
     }
 
     /**
