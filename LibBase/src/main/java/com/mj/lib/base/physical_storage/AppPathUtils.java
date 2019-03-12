@@ -1,6 +1,7 @@
 package com.mj.lib.base.physical_storage;
 
 import android.content.Context;
+import android.os.Build;
 import android.text.TextUtils;
 
 import java.io.File;
@@ -35,7 +36,11 @@ public class AppPathUtils {
      * @return 获取app私有路径 data/data/packageName/
      */
     public static String getAppPrivatePath() {
-        return subAppPrivatePathsDir(applicationContext.getFilesDir().getPath()) + File.separator;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return applicationContext.getDataDir().getPath() + File.separator;
+        } else {
+            return subAppPrivatePathsDir(applicationContext.getFilesDir().getPath()) + File.separator;
+        }
     }
 
     /**
@@ -51,6 +56,7 @@ public class AppPathUtils {
     public static String getAppPrivateCachesPath() {
         return applicationContext.getCacheDir().getPath() + File.separator;
     }
+
 
     /**
      * 截取app私有目录
