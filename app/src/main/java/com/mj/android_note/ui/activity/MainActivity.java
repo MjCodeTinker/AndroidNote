@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import com.airbnb.lottie.LottieAnimationView;
 import com.mj.android_note.R;
+import com.mj.android_note.dispatch_touch.DispatchTouchActivity;
 import com.mj.android_note.libary.adaptive.StartSystemSettingPageImpl;
 import com.mj.android_note.libary.adaptive.SystemSettingPageEntity;
 import com.mj.android_note.module.process.MainProcessActivity;
@@ -78,6 +79,12 @@ public class MainActivity extends Activity {
             }
         });
 
+        findViewById(R.id.main_activity_btn_dispatch_touch).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DispatchTouchActivity.launcher(MainActivity.this);
+            }
+        });
 
     }
 

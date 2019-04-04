@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <com.mj.android_note.dispatch_touch.RootLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.mj.android_note.dispatch_touch.GroupLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.mj.android_note.dispatch_touch.TouchView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="mj`s pro" />
+        </com.mj.android_note.dispatch_touch.GroupLayout>
+    </com.mj.android_note.dispatch_touch.RootLayout>
+
+</FrameLayout>

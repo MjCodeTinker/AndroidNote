@@ -35,6 +35,7 @@
         <activity
             android:name=".module.process.SecondProcessActivity"
             android:process=":second_process" />
+        <activity android:name=".dispatch_touch.DispatchTouchActivity" />
 
 
     </application>
