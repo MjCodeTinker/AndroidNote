@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
-import com.mj.lib.base.log.LogUtil;
 
 /**
  * Author      : MJ
@@ -31,20 +30,20 @@ public class RootLayout extends LinearLayout {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        DispatchTouchActivity.printEventLog(ev,"RootLayout ## dispatchTouchEvent");
-        return super.dispatchTouchEvent(ev);
+        DispatchTouchActivity.printEventLog(ev, "RootLayout ## dispatchTouchEvent");
+        return true;
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        DispatchTouchActivity.printEventLog(ev,"RootLayout ## onInterceptTouchEvent");
+        DispatchTouchActivity.printEventLog(ev, "RootLayout ## onInterceptTouchEvent");
         return super.onInterceptTouchEvent(ev);
     }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        DispatchTouchActivity.printEventLog(event,"RootLayout ## onTouchEvent");
+        DispatchTouchActivity.printEventLog(event, "RootLayout ## onTouchEvent");
         return super.onTouchEvent(event);
     }
 

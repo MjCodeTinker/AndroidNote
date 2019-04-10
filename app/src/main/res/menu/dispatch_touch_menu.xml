@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/show_touch_content"
+        android:title="展示触摸事件内容"
+        tools:ignore="HardcodedText" />
+
+    <item
+        android:id="@+id/clear"
+        android:title="清理"
+        tools:ignore="HardcodedText" />
+
+    <item
+        android:id="@+id/no_append"
+        android:title="不追加"
+        tools:ignore="HardcodedText" />
+
+    <item
+        android:id="@+id/append"
+        android:title="追加"
+        tools:ignore="HardcodedText" />
+
+</menu>

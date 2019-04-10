@@ -12,10 +12,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.mj.android_note.dispatch_touch.TouchView
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="mj`s pro" />
+                android:layout_height="match_parent">
+
+                <com.mj.android_note.dispatch_touch.TouchView
+                    android:id="@+id/dispatch_touch_display_result"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp"
+                    android:gravity="center_vertical"
+                    android:text="mj`s pro" />
+            </ScrollView>
         </com.mj.android_note.dispatch_touch.GroupLayout>
     </com.mj.android_note.dispatch_touch.RootLayout>
 
