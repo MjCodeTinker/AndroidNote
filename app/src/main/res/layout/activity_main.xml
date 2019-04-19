@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
     android:orientation="vertical">
 
 
@@ -18,45 +18,81 @@
         <!--android:id="@+id/lottieView"/>-->
 
 
-   <com.airbnb.lottie.LottieAnimationView
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/lottieView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+   <!--<com.airbnb.lottie.LottieAnimationView-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:id="@+id/lottieView"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--/>-->
 
 
-    <Button
-        android:id="@+id/main_activity_btn_db"
+    <!--<Button-->
+        <!--android:id="@+id/main_activity_btn_db"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="进入数据库页面"-->
+        <!--android:textColor="@color/colorAccent"-->
+        <!--android:textSize="15sp" />-->
+
+
+    <!--<Button-->
+        <!--android:id="@+id/main_activity_btn_permission"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="动态权限"-->
+        <!--android:textColor="@color/colorAccent"-->
+        <!--android:textSize="15sp" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/main_activity_btn_process_communication"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="IPC"-->
+        <!--android:textColor="@color/colorAccent"-->
+        <!--android:textSize="15sp" />-->
+
+    <!--<Button-->
+        <!--android:id="@+id/main_activity_btn_dispatch_touch"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="事件分发"-->
+        <!--android:textColor="@color/colorAccent"-->
+        <!--android:textSize="15sp" />-->
+
+
+    <!--<LinearLayout-->
+        <!--android:background="#e0000000"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:gravity="center"-->
+        <!--android:layout_height="56dp">-->
+        <!--<TextView-->
+            <!--android:text="是的"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"/>-->
+    <!--</LinearLayout>-->
+
+    <TextView
+        android:layout_gravity="center"
+        android:background="#ff0000"
+        android:gravity="center"
+        android:padding="15dp"
+        android:id="@+id/main_activity_btn_anim_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="进入数据库页面"
-        android:textColor="@color/colorAccent"
+        android:text="ValueAnimator 动画测试"
+        android:textColor="@color/white"
+        android:textSize="15sp" />
+    <TextView
+        android:layout_marginTop="150dp"
+        android:background="#21383f"
+        android:gravity="center"
+        android:padding="15dp"
+        android:id="@+id/main_activity_btn_obj_anim_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ObjectAnimator 动画测试"
+        android:textColor="@color/white"
         android:textSize="15sp" />
 
-
-    <Button
-        android:id="@+id/main_activity_btn_permission"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="动态权限"
-        android:textColor="@color/colorAccent"
-        android:textSize="15sp" />
-
-    <Button
-        android:id="@+id/main_activity_btn_process_communication"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="IPC"
-        android:textColor="@color/colorAccent"
-        android:textSize="15sp" />
-
-    <Button
-        android:id="@+id/main_activity_btn_dispatch_touch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="事件分发"
-        android:textColor="@color/colorAccent"
-        android:textSize="15sp" />
 
 </LinearLayout>
