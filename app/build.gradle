@@ -30,4 +30,5 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:' + RECYCLERVIEW_VERSION
     implementation 'com.airbnb.android:lottie:' + LOTTIE_ANIMATION_VERSION
     implementation project(':LibBase')
+    implementation 'com.google.code.gson:gson:' + GSON_VERSION
 }
