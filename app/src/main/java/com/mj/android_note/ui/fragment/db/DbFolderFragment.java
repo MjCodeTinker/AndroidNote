@@ -1,8 +1,8 @@
 package com.mj.android_note.ui.fragment.db;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.mj.android_note.R;
 import com.mj.android_note.bean.FileOrFolderBean;

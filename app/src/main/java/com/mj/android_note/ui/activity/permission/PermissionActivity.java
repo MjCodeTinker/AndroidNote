@@ -2,7 +2,7 @@ package com.mj.android_note.ui.activity.permission;
 
 import android.Manifest;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.View;
 
 import com.mj.android_note.R;

@@ -1,7 +1,7 @@
 package com.mj.test.module;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import com.mj.test.module.test_message_train.TestMessageTrainActivity;

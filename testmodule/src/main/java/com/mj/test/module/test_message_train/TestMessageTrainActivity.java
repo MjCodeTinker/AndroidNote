@@ -2,9 +2,9 @@ package com.mj.test.module.test_message_train;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import com.mj.lib.base.communication.app_inner.MessageTrain;
 import com.mj.lib.base.communication.app_inner.annotation.Subscriber;

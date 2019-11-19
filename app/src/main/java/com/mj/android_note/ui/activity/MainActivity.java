@@ -3,13 +3,11 @@ package com.mj.android_note.ui.activity;
 import android.animation.*;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.Gravity;
+import androidx.annotation.Nullable;
+
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.TextView;
 import com.mj.android_note.R;
 import com.mj.lib.base.communication.app_inner.MessageTrain;
