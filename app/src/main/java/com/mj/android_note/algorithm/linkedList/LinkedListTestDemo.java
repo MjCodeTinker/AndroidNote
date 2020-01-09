@@ -1,4 +1,4 @@
-package com.mj.android_note.algorithm.LinkedList;
+package com.mj.android_note.algorithm.linkedList;
 
 import java.util.Arrays;
 
@@ -15,11 +15,15 @@ public class LinkedListTestDemo {
     public static void main(String[] args) {
         System.out.println("LinkedListTestDemo main args: " + Arrays.toString(args));
 
+        SinglyLinkedList.Node<Integer> n3 = new SinglyLinkedList.Node<>(4, null);
+        SinglyLinkedList.Node<Integer> n1 = new SinglyLinkedList.Node<>(2, n3);
+        SinglyLinkedList.Node<Integer> n2 = new SinglyLinkedList.Node<>(3, n1);
+        SinglyLinkedList.Node<Integer> head = new SinglyLinkedList.Node<>(1, n2);
+
+        SinglyLinkedList list = new SinglyLinkedList<>(head);
+        list.printData(head);
+        System.out.println("################");
+        list.printData(list.reverseByRecursion(head));
     }
-
-
-
-
-
 
 }
