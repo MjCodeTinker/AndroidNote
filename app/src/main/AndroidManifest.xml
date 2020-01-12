@@ -43,6 +43,8 @@
         <activity
             android:name=".Tools.ChatJsonToolsActivity"
             tools:ignore="InnerclassSeparator" />
+        <!--测试butterKnife-->
+        <activity android:name=".ui.activity.butter_knife.TestButterKnifeActivity" />
 
 
     </application>

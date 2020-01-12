@@ -3,13 +3,17 @@ package com.mj.android_note.ui.activity;
 import android.animation.*;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
+
 import com.mj.android_note.R;
+import com.mj.android_note.ui.activity.butter_knife.TestButterKnifeActivity;
 import com.mj.lib.base.communication.app_inner.MessageTrain;
 import com.mj.lib.base.log.LogUtil;
 
@@ -31,7 +35,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        MessageTrain.getDefault().register(this);
+//        MessageTrain.getDefault().register(this);
 
 //        final LottieAnimationView lottieView = findViewById(R.id.lottieView);
 //        lottieView.setImageAssetsFolder("images/");
@@ -40,13 +44,15 @@ public class MainActivity extends Activity {
 //        lottieView.setAnimation("data.json");
 //        lottieView.loop(true);
 
-//        findViewById(R.id.main_activity_btn_db).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
+        findViewById(R.id.main_activity_btn_db).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 //                Intent intent = new Intent(MainActivity.this, DbMainActivity.class);
 //                startActivity(intent);
-//            }
-//        });
+                Intent intent = new Intent(MainActivity.this, TestButterKnifeActivity.class);
+                startActivity(intent);
+            }
+        });
 //        lottieView.setImageAssetsFolder("lottie/images/");
 //        Cancellable cancellable = LottieComposition.Factory.fromAssetFileName(this, "lottie/data.json", new OnCompositionLoadedListener() {
 //            @Override
@@ -95,11 +101,11 @@ public class MainActivity extends Activity {
     }
 
     private void testObjectAnimator() {
-        int [] colorChangeArray = {
+        int[] colorChangeArray = {
                 getResources().getColor(R.color.colorPrimary),
                 getResources().getColor(R.color.white),
                 getResources().getColor(R.color.colorAccent)};
-        final ObjectAnimator objectAnimator = ObjectAnimator.ofInt(getWindow(),"statusBarColor", colorChangeArray);
+        final ObjectAnimator objectAnimator = ObjectAnimator.ofInt(getWindow(), "statusBarColor", colorChangeArray);
         View btnObjAnim = findViewById(R.id.main_activity_btn_obj_anim_test);
         btnObjAnim.setOnClickListener(new View.OnClickListener() {
             @Override
