@@ -11,13 +11,13 @@ public class BaseTestDemo {
         BaseAlgorithm baseAlgorithm = new BaseAlgorithm();
 
         // 冒泡排序
-        int [] count = new int[10000];
+        int[] count = new int[10000];
         Random random = new Random();
         baseAlgorithm.printData(count);
-        System.out.println("冒泡排序 ###########");
+        System.out.println("bubbling sort ###########");
 
         for (int i = 0; i < count.length; i++) {
-            count [i]  = random.nextInt(10000);
+            count[i] = random.nextInt(10000);
         }
 
         baseAlgorithm.printData(baseAlgorithm.bubbling(count));

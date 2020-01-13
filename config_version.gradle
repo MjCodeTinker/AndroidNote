@@ -24,7 +24,11 @@ ext {
 
     //###################### 第三方库 start ###########################
 
+    //butter knife
     BUTTER_KNIFE_VERSION = "10.2.0"
     BUTTER_KNIFE_ANOTATION_PROCESSOR_VERSION = "10.2.0"
+    // 代码生成工具
+    JAVA_POET_VERSION = "1.7.0"
+    GOOGLE_AUTO_SERVICE = "1.0-rc2"
     //###################### 第三方库 end ###########################
 }

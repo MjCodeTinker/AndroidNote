@@ -37,4 +37,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:' + GSON_VERSION
     implementation 'com.jakewharton:butterknife:' + BUTTER_KNIFE_VERSION
     annotationProcessor 'com.jakewharton:butterknife-compiler:' + BUTTER_KNIFE_ANOTATION_PROCESSOR_VERSION
+    implementation 'com.squareup:javapoet:' + JAVA_POET_VERSION
+    implementation 'com.google.auto.service:auto-service:' + GOOGLE_AUTO_SERVICE
 }
+
