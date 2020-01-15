@@ -1,5 +1,12 @@
 package com.mj.android_note.data_structure.algorithm.base;
 
+import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.TypeSpec;
+
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Modifier;
+
 public class BaseTestDemo {
 
 
@@ -24,6 +31,8 @@ public class BaseTestDemo {
         boolean b = baseAlgorithm.checkArrayIsMonotonous(new int[]{1, 3, 1});
         boolean b1 = baseAlgorithm.checkArrayIsMonotonous(new int[]{1, 2, 3});
         System.out.println("b = " + b + "--b1 = " + b1);
+
+
 
     }
 
