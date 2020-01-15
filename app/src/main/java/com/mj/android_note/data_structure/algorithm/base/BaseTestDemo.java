@@ -1,4 +1,4 @@
-package com.mj.android_note.algorithm.base;
+package com.mj.android_note.data_structure.algorithm.base;
 
 import java.util.Random;
 

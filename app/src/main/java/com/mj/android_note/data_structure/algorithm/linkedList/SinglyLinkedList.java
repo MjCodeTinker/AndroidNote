@@ -1,4 +1,4 @@
-package com.mj.android_note.algorithm.linkedList;
+package com.mj.android_note.data_structure.algorithm.linkedList;
 
 /**
  * 链表结构：A -> B -> C -> D.....
