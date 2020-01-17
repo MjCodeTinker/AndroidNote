@@ -72,7 +72,7 @@ public class ThreadPoolDemo {
         // 多线程做i++操作
         MyEntity myEntity = new MyEntity();
         for (int i = 0; i < 10; i++) {
-            new Thread(myEntity::addForSynchronized).start();
+            new Thread(myEntity::AddForAtomicInteger).start();
         }
         try {
             Thread.sleep(2000);
@@ -81,13 +81,13 @@ public class ThreadPoolDemo {
             e.printStackTrace();
         }
 
-        // 为什么多线程处理i++ 操作，不加锁保护，会出现最终只不符合我们的预期
+        // 为什么多线程处理i++ 操作，不加锁保护，会出现最终值不符合我们的预期
         // 因为：
         // 1. java内存模型中，各个线程会将共享变量从主存中拷贝到工作内存中
         // 2. 做i++操作的时候是基于工作内存中的变量来做的修改，比如当前线程中 i 为999 当时另一个线程已经将i 修改为1000，但是当前线程还是按照999做i++ 的操作
-        // 工作内存修改之后，合适写入到主内存中？
+        // 工作内存修改之后，什么时候写入到主内存中？
         // 1. 这个时机对于普通变量是没有规定的，而针对volatile 修饰的变量给java虚拟机特殊的约定
-        // 2. 线程对volatile变量修改之后会立刻被其他线程锁感知，即不会出现脏数据的现象，从而保证数据的“可见性”
+        // 2.线程对volatile变量修改之后会立刻被其他线程所感知，即不会出现脏数据的现象，从而保证数据的“可见性
 
         //################ 关键字 volatile ###################
         // 工作内存修改之后，何时写入到主内存中？
@@ -101,34 +101,14 @@ public class ThreadPoolDemo {
         // 4.其他处理器发现缓存失效，会在去主存中读取数据，即可以获取当前的最新值，这样就能保证每个线程都能获得该变量的最新值
 
         // 线程有几种状态，分别是什么条件下触发
-        //
+        // NEW RUNNABLE BLOCKED WAITING TIMED_WAITING TERMINATED 六中状态
 
         //sleep 、wait 、join、yield,interrupt
 
-        // wait
-        //interrupt
-        //interrupt 可能会导致死锁，比如一个线程中正在用lock,此时如果做中断操作，锁将无法被释放
-        //reentrantLock 提供了 tryLock的方法
-
-
         // Semaphore
-
-        Thread t = new Thread(){
-            @Override
-            public void run() {
-                super.run();
-            }
-        };
-        t.interrupt();
-        Object b = new Object();
-        try {
-            b.wait();
-            b.notify();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
+        new MultiThreadMethodVerify();
     }
+
 
     // 多线程做 i++ 操作 实现的三种方式
     private static class MyEntity {
@@ -136,7 +116,7 @@ public class ThreadPoolDemo {
 
         private AtomicInteger atomicNum = new AtomicInteger(0);
 
-        private volatile ReentrantLock reentrantLock;
+        private ReentrantLock reentrantLock;
 
         public MyEntity() {
             this.reentrantLock = new ReentrantLock(false);
@@ -157,7 +137,7 @@ public class ThreadPoolDemo {
                 reentrantLock.lock();
                 try {
                     num++;
-                }finally {
+                } finally {
                     reentrantLock.unlock();
                 }
             }
@@ -177,8 +157,229 @@ public class ThreadPoolDemo {
         }
 
         private int getNum() {
-            return num;
+            return atomicNum.get();
         }
+    }
+
+    private static class MultiThreadMethodVerify {
+
+
+        MultiThreadMethodVerify() {
+//            verifyWait();
+//            verifyJoin();
+//            verifyYield();
+//            verifySleep();
+//            verifyInterrupt();
+            multiTreadPrintDoubleArray();
+        }
+
+        // 验证wait方法
+        // - 1.wait 方法一般和 notify 、notifyAll 方法成对出现
+        // - 2.当某个线程执行wait方法时，它就进入到一个和该对象相关的等待池中，同时失去了对象锁的功能，使得其他线程可以访问该对象
+        // - 3.用户可以通过notify,notifyAll 或设定睡眠时间，来唤醒当前等待池中的线程
+        // - 4.wait,notify,notifyAll 方法都必须放在synchronized代码块中，否则会抛出java.lang.IllegalMonitorStateException 异常
+
+        private void verifyWait() {
+            printLog("###########verifyWait##########");
+            // 对象锁
+            Object oWait = new Object();
+            // 开启两个线程
+            ExecutorService executorService = Executors.newFixedThreadPool(2);
+
+            executorService.execute(() -> {
+                synchronized (oWait) {
+                    try {
+                        printLog("wait:" + Thread.currentThread().getName() + "-开始等待");
+                        oWait.wait();
+                        printLog("wait:" + Thread.currentThread().getName() + "-执行结束");
+                        executorService.shutdown();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            executorService.execute(() -> {
+                synchronized (oWait) {
+                    printLog("wait:" + Thread.currentThread().getName() + "-开始执行");
+                    oWait.notifyAll();
+                    printLog("wait:" + Thread.currentThread().getName() + "-执行完成");
+                }
+            });
+
+        }
+
+        // 验证join方法
+        // 等待目标线程执行完成之后，其他线程在执行
+        private void verifyJoin() {
+            printLog("###########verifyJoin##########");
+            // 开启两个线程
+            Thread t1 = new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    printLog("join:" + Thread.currentThread().getName() + "-执行");
+                }
+            };
+
+            Thread t2 = new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    printLog("join:" + Thread.currentThread().getName() + "-执行");
+                }
+            };
+            try {
+                t1.start();
+                t1.join();
+                t2.start();
+                t2.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            printLog("join:" + Thread.currentThread().getName() + "-主线程执行结束");
+
+        }
+
+        // 验证yield
+        // 线程礼让，等待其他线程执行完成，在执行自己
+        private void verifyYield() {
+            printLog("###########verifyYield##########");
+            Thread t1 = new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    printLog("yield:" + Thread.currentThread().getName() + "-开始执行");
+                    yield();
+                    printLog("yield:" + Thread.currentThread().getName() + "-执行结束");
+                }
+            };
+            Thread t2 = new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    printLog("yield:" + Thread.currentThread().getName() + "-开始执行");
+                    yield();
+                    printLog("yield:" + Thread.currentThread().getName() + "-执行结束");
+                }
+            };
+
+            t1.start();
+            t2.start();
+            printLog("yield:" + Thread.currentThread().getName() + "-主线程执行结束");
+        }
+
+
+        // 验证sleep
+        // sleep在同步代码块中，进入休眠状态，并不会释放synchronized的锁
+        private void verifySleep() {
+            Object oSleep = new Object();
+            ExecutorService service = Executors.newFixedThreadPool(2);
+            service.execute(() -> {
+                synchronized (oSleep) {
+                    try {
+                        printLog("sleep:" + Thread.currentThread().getName() + "-开始执行");
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } finally {
+                        printLog("sleep:" + Thread.currentThread().getName() + "-执行结束");
+                    }
+                }
+            });
+            service.execute(() -> {
+                synchronized (oSleep) {
+                    printLog("sleep:" + Thread.currentThread().getName() + "-执行");
+                    if (!service.isShutdown()) {
+                        service.shutdown();
+                    }
+                }
+            });
+        }
+
+        // 验证interrupt
+        // - 1.interrupt 并不会关闭线程，只是在线程中修改一个标志位，暂停线程的执行
+        // - 2.interrupt （中断），interrupted (中断结束)，isInterrupt (判断是否被中断)
+        private void verifyInterrupt() {
+            Thread t2 = new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    if (isInterrupted()) {
+                        printLog("interrupt:" + Thread.currentThread().getName() + "-线程被中断了...");
+                    } else {
+                        printLog("interrupt:" + Thread.currentThread().getName() + "-中断结束 继续执行");
+                    }
+                }
+            };
+
+            Thread t1 = new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    printLog("interrupt:" + Thread.currentThread().getName() + "-开始执行");
+                    try {
+                        sleep(2000);
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    printLog("interrupt:" + Thread.currentThread().getName() + "-执行结束");
+                }
+            };
+            t2.start();
+            t2.interrupt();
+            t1.start();
+        }
+
+        String[] numArray = {"1", "2", "3", "4"};
+        String[] charArray = {"A", "B", "C", "D"};
+
+        // 要求：两个线程分别打印各自数组，打印结果顺序为，1,A,2,B,3,C,4,D
+        // 1. 通过wait notify 来实现。notify notifyAll只会通知其他线程等待结束，所以可以完成此问题
+        private void multiTreadPrintDoubleArray() {
+            Object o = new Object();
+            Thread t1 = new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    // 1.第1中方式，通过wait  和notify 的形式
+                    for (int i = 0; i < numArray.length; i++) {
+                        printLog(numArray[i]);
+                        try {
+                            synchronized (o) {
+                                o.wait();
+                                o.notify();
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            };
+            Thread t2 = new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    // 1.第1中方式，通过wait  和notify 的形式
+                    for (int i = 0; i < charArray.length; i++) {
+                        printLog(charArray[i]);
+                        synchronized (o) {
+                            try {
+                                o.notify();
+                                o.wait();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            };
+            t1.start();
+            t2.start();
+
+        }
+
     }
 
     private static void printLog(String msg) {
