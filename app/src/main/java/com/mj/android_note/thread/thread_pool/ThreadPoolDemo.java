@@ -1,7 +1,5 @@
 package com.mj.android_note.thread.thread_pool;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -472,7 +470,6 @@ public class ThreadPoolDemo {
             Thread thread = Thread.currentThread();
             mockThreadLocalTMap.put(thread, t);
         }
-
     }
 
 
