@@ -8,6 +8,9 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
@@ -16,6 +19,9 @@ import com.mj.android_note.R;
 import com.mj.android_note.ui.activity.butter_knife.TestButterKnifeActivity;
 import com.mj.lib.base.communication.app_inner.MessageTrain;
 import com.mj.lib.base.log.LogUtil;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Author      : MJ
@@ -98,6 +104,38 @@ public class MainActivity extends Activity {
 
         testValueAnimator();
         testObjectAnimator();
+        testHandler();
+    }
+
+    Handler handler;
+
+    // handler测试
+    @SuppressLint("HandlerLeak")
+    private void testHandler() {
+
+        LogUtil.e("mj", "testHandler被调用");
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
+        executorService.execute(() -> {
+            Looper.prepare();
+            Looper looper = Looper.myLooper();
+            handler = new Handler(looper) {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    LogUtil.i("mj", "我收到消息了" + msg.what);
+                }
+            };
+            // 必须要在创建handler 之后调用 looper.loop
+            Looper.loop();
+        });
+        executorService.execute(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            handler.sendEmptyMessage(1);
+        });
     }
 
     private void testObjectAnimator() {
