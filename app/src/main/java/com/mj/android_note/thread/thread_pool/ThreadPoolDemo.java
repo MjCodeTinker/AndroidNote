@@ -109,6 +109,21 @@ public class ThreadPoolDemo {
         new MultiThreadMethodVerify();
 
         // 锁
+        new DeadLockReason();
+
+        // ThreadLocal
+        new TestThreadLocal();
+
+//        Handler h = new Handler(Looper.myLooper()) {
+//            @Override
+//            public void handleMessage(Message msg) {
+//                super.handleMessage(msg);
+//
+//                printLog("msg:" + msg);
+//
+//            }
+//        };
+//        h.sendMessage(new Message());
     }
 
 
@@ -399,6 +414,7 @@ public class ThreadPoolDemo {
                 }
             }
         }
+
         public void rightLeft() {
             // 得到rightLock
             synchronized (rightLock) {
@@ -410,6 +426,33 @@ public class ThreadPoolDemo {
         }
     }
 
+
+    // threadLocal
+    private static class TestThreadLocal {
+
+        private ThreadLocal<String> threadLocal = new ThreadLocal<>();
+
+        TestThreadLocal() {
+            test();
+        }
+
+        private void test() {
+
+            // 两个线程中的数据互相隔离
+            ExecutorService executorService = Executors.newFixedThreadPool(3);
+            executorService.execute(() -> {
+                threadLocal.set("1");
+                printLog("threadLocal : + " + Thread.currentThread().getName() + " str = " + threadLocal.get());
+            });
+            executorService.execute(() -> {
+                threadLocal.set("2");
+                printLog("threadLocal : + " + Thread.currentThread().getName() + " str = " + threadLocal.get());
+            });
+
+            executorService.execute(() -> printLog("threadLocal : + " + Thread.currentThread().getName() + " str = " + threadLocal.get()));
+        }
+
+    }
 
     private static void printLog(String msg) {
         System.out.println("###" + msg);
