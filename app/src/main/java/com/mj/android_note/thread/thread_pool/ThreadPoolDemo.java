@@ -1,5 +1,8 @@
 package com.mj.android_note.thread.thread_pool;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -112,7 +115,7 @@ public class ThreadPoolDemo {
         new DeadLockReason();
 
         // ThreadLocal
-        new TestThreadLocal();
+//        new TestThreadLocal();
 
 //        Handler h = new Handler(Looper.myLooper()) {
 //            @Override
@@ -430,7 +433,9 @@ public class ThreadPoolDemo {
     // threadLocal
     private static class TestThreadLocal {
 
-        private ThreadLocal<String> threadLocal = new ThreadLocal<>();
+        // 系统的ThreadLocal 来实现
+//        private ThreadLocal<String> threadLocal = new ThreadLocal<>();
+        private MockThreadLocal<String> threadLocal = new MockThreadLocal<>();
 
         TestThreadLocal() {
             test();
@@ -453,6 +458,23 @@ public class ThreadPoolDemo {
         }
 
     }
+
+    // 手动实现ThreadLocal
+    private static class MockThreadLocal<T> {
+
+        private ConcurrentHashMap<Thread, T> mockThreadLocalTMap = new ConcurrentHashMap<>();
+
+        T get() {
+            return mockThreadLocalTMap.get(Thread.currentThread());
+        }
+
+        void set(T t) {
+            Thread thread = Thread.currentThread();
+            mockThreadLocalTMap.put(thread, t);
+        }
+
+    }
+
 
     private static void printLog(String msg) {
         System.out.println("###" + msg);
