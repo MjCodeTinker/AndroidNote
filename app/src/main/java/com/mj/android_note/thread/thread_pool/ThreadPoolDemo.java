@@ -107,6 +107,8 @@ public class ThreadPoolDemo {
 
         // Semaphore
         new MultiThreadMethodVerify();
+
+        // 锁
     }
 
 
@@ -381,6 +383,33 @@ public class ThreadPoolDemo {
         }
 
     }
+
+
+    // 锁顺序导致的死锁
+    private static class DeadLockReason {
+        private final Object leftLock = new Object();
+        private final Object rightLock = new Object();
+
+        public void leftRight() {
+            // 得到leftLock
+            synchronized (leftLock) {
+                // 得到rightLock锁
+                synchronized (rightLock) {
+                    // TODO: 2020/1/19
+                }
+            }
+        }
+        public void rightLeft() {
+            // 得到rightLock
+            synchronized (rightLock) {
+                //得到leftLock
+                synchronized (leftLock) {
+                    // TODO: 2020/1/19
+                }
+            }
+        }
+    }
+
 
     private static void printLog(String msg) {
         System.out.println("###" + msg);
