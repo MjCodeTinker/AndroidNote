@@ -112,19 +112,9 @@ public class ThreadPoolDemo {
         // 锁
         new DeadLockReason();
 
-        // ThreadLocal
+//        // ThreadLocal
 //        new TestThreadLocal();
-
-//        Handler h = new Handler(Looper.myLooper()) {
-//            @Override
-//            public void handleMessage(Message msg) {
-//                super.handleMessage(msg);
-//
-//                printLog("msg:" + msg);
-//
-//            }
-//        };
-//        h.sendMessage(new Message());
+        
     }
 
 
