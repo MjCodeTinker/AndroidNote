@@ -25,7 +25,6 @@ public class TestUtilsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_utils);
         tvContent = findViewById(R.id.test_utils_tv_content);
-        AppPathUtils.init(this);
     }
 
 

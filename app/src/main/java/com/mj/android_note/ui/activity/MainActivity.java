@@ -1,13 +1,14 @@
 package com.mj.android_note.ui.activity;
 
-import android.animation.*;
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.animation.TimeInterpolator;
+import android.animation.TypeEvaluator;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -15,10 +16,14 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.mj.android_note.R;
+import com.mj.android_note.base.serializable_parcelable.TestSerializableAndParcelable;
+import com.mj.android_note.base.serializable_parcelable.User;
 import com.mj.android_note.ui.activity.butter_knife.TestButterKnifeActivity;
-import com.mj.lib.base.communication.app_inner.MessageTrain;
 import com.mj.lib.base.log.LogUtil;
+import com.mj.lib.base.thread.ThreadUtils;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -105,6 +110,29 @@ public class MainActivity extends Activity {
         testValueAnimator();
         testObjectAnimator();
         testHandler();
+        testSerialAndParcel();
+    }
+
+    private void testSerialAndParcel() {
+
+        // 测试serializable
+        TestSerializableAndParcelable testSerializableAndParcelable = new TestSerializableAndParcelable();
+        User u = new User();
+        u.name = "Mj";
+        u.setAge(22);
+        u.password = "123456";
+        User.email = "miaojian@cmcm.com";
+
+        ThreadUtils.getInstance().exeDbAction(() -> {
+            testSerializableAndParcelable.serializableUser(u);
+
+            ThreadUtils.getInstance().postUiThread(() -> {
+                User user = testSerializableAndParcelable.deSerializableUser();
+                LogUtil.e("mj", "u = " + user);
+                LogUtil.e("mj", "对象是否相等：" + (u == user));
+            });
+        });
+
     }
 
     Handler handler;
