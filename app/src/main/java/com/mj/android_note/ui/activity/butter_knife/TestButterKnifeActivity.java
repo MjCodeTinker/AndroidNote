@@ -1,5 +1,6 @@
 package com.mj.android_note.ui.activity.butter_knife;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -8,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mj.android_note.R;
+import com.mj.android_note.base.serializable_parcelable.School;
 import com.mj.android_note.utils.ToastUtils;
 
 import butterknife.BindView;
@@ -42,7 +44,13 @@ public class TestButterKnifeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_test_butter_knife);
         bind = ButterKnife.bind(this);
 
-        tv.setText(String.format("%s", "i am miaojian"));
+        Intent intent = getIntent();
+        Bundle parcelable_test = intent.getExtras();
+        School school = null;
+        if (parcelable_test != null) {
+            school = parcelable_test.getParcelable("parcelable_test");
+        }
+        tv.setText(String.format("%s", school != null ? school.toString() : "出错了"));
     }
 
     @Override

@@ -19,6 +19,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.mj.android_note.R;
+import com.mj.android_note.base.serializable_parcelable.School;
 import com.mj.android_note.base.serializable_parcelable.TestSerializableAndParcelable;
 import com.mj.android_note.base.serializable_parcelable.User;
 import com.mj.android_note.ui.activity.butter_knife.TestButterKnifeActivity;
@@ -61,6 +62,9 @@ public class MainActivity extends Activity {
 //                Intent intent = new Intent(MainActivity.this, DbMainActivity.class);
 //                startActivity(intent);
                 Intent intent = new Intent(MainActivity.this, TestButterKnifeActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("parcelable_test", new School(100, "北京大学", "北京市海淀区"));
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -110,10 +114,15 @@ public class MainActivity extends Activity {
         testValueAnimator();
         testObjectAnimator();
         testHandler();
-        testSerialAndParcel();
+        testSerializable();
+        testSharedPreference();
     }
 
-    private void testSerialAndParcel() {
+    private void testSharedPreference() {
+        getSharedPreferences("test_sharedPreference",MODE_PRIVATE);
+    }
+
+    private void testSerializable() {
 
         // 测试serializable
         TestSerializableAndParcelable testSerializableAndParcelable = new TestSerializableAndParcelable();
