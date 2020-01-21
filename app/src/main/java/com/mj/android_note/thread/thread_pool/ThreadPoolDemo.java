@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -115,6 +116,8 @@ public class ThreadPoolDemo {
 //        // ThreadLocal
 //        new TestThreadLocal();
 
+        // java线程工具包 semaphore countdownLatch cyclicBarrier
+        new JavaThreadTools();
     }
 
 
@@ -460,6 +463,40 @@ public class ThreadPoolDemo {
             Thread thread = Thread.currentThread();
             mockThreadLocalTMap.put(thread, t);
         }
+    }
+
+    // java线程工具包
+    private static class JavaThreadTools {
+
+        JavaThreadTools() {
+            eatBreakfast();
+        }
+
+        // 10个人要吃早餐
+        private final int COUNT = 10;
+        // 但是只有三个凳子
+        Semaphore semaphore = new Semaphore(3);
+
+        // 吃早餐
+        void eatBreakfast() {
+            ExecutorService executorService = Executors.newCachedThreadPool();
+            for (int i = 0; i < COUNT; i++) {
+                executorService.execute(() -> {
+                    try {
+                        semaphore.acquire();
+                        printLog(Thread.currentThread().getName() + "---正在吃饭中...");
+                        // 假设每个人吃饭需要 1秒钟
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }finally {
+                        printLog(Thread.currentThread().getName() + "---吃完了...");
+                        semaphore.release();
+                    }
+                });
+            }
+        }
+
     }
 
 
