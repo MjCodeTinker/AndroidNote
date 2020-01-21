@@ -9,8 +9,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.view.View;
@@ -117,12 +119,38 @@ public class MainActivity extends Activity {
         testHandler();
         testSerializable();
         testSharedPreference();
+        testHandlerThread();
     }
+
+    private void testHandlerThread() {
+        HandlerThread handlerThread = new HandlerThread("handlerThread");
+        handlerThread.start();
+        Handler handler = new Handler(handlerThread.getLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                LogUtil.e("mj", "from :" + msg.obj + "--Thread");
+            }
+        };
+
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
+        executorService.execute(() -> {
+            Message msg = handler.obtainMessage();
+            msg.obj = Thread.currentThread().getName();
+            handler.sendMessage(msg);
+        });
+        executorService.execute(() -> {
+            Message msg = handler.obtainMessage();
+            msg.obj = Thread.currentThread().getName();
+            handler.sendMessage(msg);
+        });
+    }
+
 
     private void testSharedPreference() {
         SharedPreferences test_sharedPreference = getSharedPreferences("test_sharedPreference", MODE_PRIVATE);
         SharedPreferences.Editor edit = test_sharedPreference.edit();
-        edit.putBoolean("",true);
+        edit.putBoolean("", true);
         edit.apply();
         boolean commit = edit.commit();
     }
