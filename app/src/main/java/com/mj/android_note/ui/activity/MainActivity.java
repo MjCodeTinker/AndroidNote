@@ -8,6 +8,7 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -119,7 +120,11 @@ public class MainActivity extends Activity {
     }
 
     private void testSharedPreference() {
-        getSharedPreferences("test_sharedPreference",MODE_PRIVATE);
+        SharedPreferences test_sharedPreference = getSharedPreferences("test_sharedPreference", MODE_PRIVATE);
+        SharedPreferences.Editor edit = test_sharedPreference.edit();
+        edit.putBoolean("",true);
+        edit.apply();
+        boolean commit = edit.commit();
     }
 
     private void testSerializable() {
