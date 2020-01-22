@@ -1,6 +1,8 @@
 package com.mj.android_note.thread.thread_pool;
 
+import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -9,6 +11,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ThreadPoolDemo {
@@ -118,6 +121,15 @@ public class ThreadPoolDemo {
 
         // java线程工具包 semaphore countdownLatch cyclicBarrier
         new JavaThreadTools();
+
+        // 验证i++ 与 ++ i的区别
+        checkIPP();
+    }
+
+    private static void checkIPP() {
+        int i = 0;
+        printLog("i ++ : " + (++i));
+        // 打印++i：结果为1， 如果打印i++则打印结果为 0
     }
 
 
@@ -469,17 +481,18 @@ public class ThreadPoolDemo {
     private static class JavaThreadTools {
 
         JavaThreadTools() {
-            eatBreakfast();
+//            eatBreakfast();
+            placeTheOrder();
         }
 
-        // 10个人要吃早餐
-        private final int COUNT = 10;
         // 但是只有三个凳子
         Semaphore semaphore = new Semaphore(3);
 
-        // 吃早餐
+        // 吃早餐，用信号量来实现
         void eatBreakfast() {
             ExecutorService executorService = Executors.newCachedThreadPool();
+            // 10个人要吃早餐
+            int COUNT = 10;
             for (int i = 0; i < COUNT; i++) {
                 executorService.execute(() -> {
                     try {
@@ -489,12 +502,59 @@ public class ThreadPoolDemo {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
-                    }finally {
+                    } finally {
                         printLog(Thread.currentThread().getName() + "---吃完了...");
                         semaphore.release();
                     }
                 });
             }
+        }
+
+        // 栅栏
+        CyclicBarrier cyclicBarrier = new CyclicBarrier(3);
+
+        // 下单过程，通过 CyclicBarrier(栅栏来完成)
+        void placeTheOrder() {
+            ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(2);
+            AtomicReference<String> userToken = new AtomicReference<>();
+            AtomicReference<String> commodityPrice = new AtomicReference<>();
+            scheduledExecutorService.execute(() -> {
+                try {
+
+                    userToken.set("i am userToken");
+                    // 获取用户token
+                    cyclicBarrier.await();
+                } catch (BrokenBarrierException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
+            scheduledExecutorService.execute(() -> {
+                try {
+
+                    Thread.sleep(1000);
+                    commodityPrice.set("1.25元");
+                    // 拿到订单token
+                    cyclicBarrier.await();
+                } catch (BrokenBarrierException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
+            try {
+                cyclicBarrier.await();
+                printLog("拿到用户token：" + userToken.get() + "--拿到商品价格：" + commodityPrice.get() + "--开始下单...");
+                if (!scheduledExecutorService.isShutdown()) {
+                    scheduledExecutorService.shutdown();
+                }
+            } catch (BrokenBarrierException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         }
 
     }
