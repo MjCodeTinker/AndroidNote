@@ -1,7 +1,9 @@
 package com.mj.android_note.thread.thread_pool;
 
+import java.util.Random;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -482,7 +484,8 @@ public class ThreadPoolDemo {
 
         JavaThreadTools() {
 //            eatBreakfast();
-            placeTheOrder();
+//            placeTheOrder();
+            running100Meters();
         }
 
         // 但是只有三个凳子
@@ -554,7 +557,46 @@ public class ThreadPoolDemo {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
 
+
+        CountDownLatch startEndLatch = new CountDownLatch(1);
+        CountDownLatch runnerLatch = new CountDownLatch(3);
+
+        // 百米跑步，来表示闭锁的案例
+        void running100Meters() {
+            ExecutorService executorService = Executors.newFixedThreadPool(3);
+            // 3个运动员
+            for (int i = 0; i < 3; i++) {
+                executorService.execute(() -> {
+                    try {
+                        // 所有运动员，跑前都需要就位，听枪声
+                        startEndLatch.await();
+                        long startTime = System.currentTimeMillis();
+                        // 假设1秒钟跑完
+                        Thread.sleep(2000);
+                        printLog(Thread.currentThread().getName() + "---已经冲过终点..." + "--用时：" + (System.currentTimeMillis() - startTime));
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } finally {
+                        runnerLatch.countDown();
+                    }
+                });
+            }
+
+            try {
+                // 教练发话了，开跑
+                startEndLatch.countDown();
+                //直到所有的人都冲过终点，比赛才结束
+                runnerLatch.await();
+                printLog("100米比赛结束");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                if (!executorService.isShutdown()) {
+                    executorService.shutdown();
+                }
+            }
         }
 
     }
