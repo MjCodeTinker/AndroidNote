@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
+import android.util.LruCache;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ import com.mj.android_note.ui.activity.butter_knife.TestButterKnifeActivity;
 import com.mj.lib.base.log.LogUtil;
 import com.mj.lib.base.thread.ThreadUtils;
 
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -120,6 +122,26 @@ public class MainActivity extends Activity {
         testSerializable();
         testSharedPreference();
         testHandlerThread();
+        testLruCache();
+    }
+
+    // 测试lruCache
+    private void testLruCache() {
+        // LruCache
+        LruCache<Integer, String> lruCache = new LruCache<Integer, String>(2) {
+//            @Override
+//            protected int sizeOf(Integer key, String value) {
+//                return 10 * key;
+//            }
+        };
+        lruCache.put(1, "1");
+        lruCache.put(2, "2");
+        lruCache.put(3, "3");
+        Map<Integer, String> snapshot = lruCache.snapshot();
+        for (Map.Entry<Integer, String> integerStringEntry : snapshot.entrySet()) {
+            LogUtil.e(TAG, "key : " + integerStringEntry.getKey());
+        }
+        LogUtil.e(TAG, "lruCache Size = " + lruCache.size());
     }
 
     private void testHandlerThread() {

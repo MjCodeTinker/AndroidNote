@@ -1,10 +1,15 @@
 package com.mj.android_note.data_structure;
 
+import android.util.LruCache;
+
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 public class DataStructureDemo {
@@ -37,6 +42,46 @@ public class DataStructureDemo {
         customStack.push(2);
         printLog("peek = " + customStack.peek() + "--customStack: " + customStack.toString());
         printLog("pop = " + customStack.pop() + "--customStack : " + customStack.toString());
+
+        // LinkedHashMap
+        LinkedHashMap<String, Integer> linkedHashMap = new LinkedHashMap<>(10, 0.75f, true);
+        linkedHashMap.put("4", 1);
+        linkedHashMap.put("2", 2);
+        linkedHashMap.put("1", 3);
+        linkedHashMap.put("3", 4);
+        printLog("LinkedHasMap #####原始存放数据 ：");
+        printMap(linkedHashMap);
+        linkedHashMap.put("3", 6);
+        linkedHashMap.get("2");
+        printLog("LinkedHasMap #####put get 之后 ：");
+        printMap(linkedHashMap);
+
+        // HashMap,是无序的
+        HashMap<String, Integer> hashMap = new HashMap<>();
+        hashMap.put("3", 1);
+        hashMap.put("4", 2);
+        hashMap.put("2", 3);
+        hashMap.put("1", 4);
+        // put 之后的返回值是map中的原始值
+        Integer put = hashMap.put("6", 5);
+        printLog("put = " + put);
+        printLog("HashMap ####原始存储的数据");
+        printMap(hashMap);
+
+        // 总结：
+        // 1.为什么HashMap是无序的
+        // 2.为什么LinkedHashMap是有序的
+        // 3.LinkedHashMap是如何保证按照访问顺序，将数据存在链表的尾部的。
+        // 4.HashMap中的entrySet是何拿值的
+
+    }
+
+    private static void printMap(Map<String, Integer> map) {
+        for (Map.Entry<String, Integer> next : map.entrySet()) {
+            String key = next.getKey();
+            Integer value = next.getValue();
+            printLog("key : " + key + "--value :" + value);
+        }
     }
 
     // 自定义栈的实现
