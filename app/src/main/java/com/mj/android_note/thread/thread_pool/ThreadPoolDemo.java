@@ -2,11 +2,15 @@ package com.mj.android_note.thread.thread_pool;
 
 import java.util.Random;
 import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.Semaphore;
@@ -126,6 +130,9 @@ public class ThreadPoolDemo {
 
         // 验证i++ 与 ++ i的区别
         checkIPP();
+
+        // 测试FutureTask
+        TestFuture.test();
     }
 
     private static void checkIPP() {
@@ -599,6 +606,43 @@ public class ThreadPoolDemo {
             }
         }
 
+    }
+
+
+    private static class TestFuture {
+
+        private static ExecutorService executors = Executors.newSingleThreadExecutor();
+
+        static void test() {
+            // Runnable
+            executors.execute(() -> {
+                printLog("我是Runnable");
+            });
+
+            Callable<String> callable = () -> {
+                Thread.sleep(1000);
+                return "我是Callable";
+            };
+
+            FutureTask<String> future = new FutureTask<>(callable);
+            executors.execute(future);
+            try {
+                future.cancel(true);
+                String s;
+                if(future.isCancelled() || future.isDone()){
+                    s = "已经被取消了";
+                }else{
+                    s = future.get();
+                }
+                printLog("我是FutureTask s : " + s);
+                executors.shutdown();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
 
