@@ -38,6 +38,7 @@ dependencies {
     implementation 'com.jakewharton:butterknife:' + BUTTER_KNIFE_VERSION
     annotationProcessor 'com.jakewharton:butterknife-compiler:' + BUTTER_KNIFE_ANOTATION_PROCESSOR_VERSION
     implementation 'com.squareup:javapoet:' + JAVA_POET_VERSION
+    implementation project(path: ':java_test_lib')
 //    implementation 'com.google.auto.service:auto-service:' + GOOGLE_AUTO_SERVICE
 }
 
