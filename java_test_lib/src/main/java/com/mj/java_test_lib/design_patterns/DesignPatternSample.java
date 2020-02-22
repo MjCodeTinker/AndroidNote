@@ -6,6 +6,10 @@ import com.mj.java_test_lib.design_patterns.decorator.component.RedTea;
 import com.mj.java_test_lib.design_patterns.decorator.decorator_component.Lemon;
 import com.mj.java_test_lib.design_patterns.decorator.decorator_component.Mango;
 import com.mj.java_test_lib.design_patterns.decorator.decorator_component.Watermelon;
+import com.mj.java_test_lib.design_patterns.delegate.delegate_parttern.IUser;
+import com.mj.java_test_lib.design_patterns.delegate.delegate_parttern.UserImpl;
+import com.mj.java_test_lib.design_patterns.delegate.delegate_parttern.UserProxy;
+import com.mj.java_test_lib.design_patterns.delegate.proxy.UserDynamicProxy;
 import com.mj.java_test_lib.design_patterns.factory.abs.AmdFactory;
 import com.mj.java_test_lib.design_patterns.factory.abs.Computer;
 import com.mj.java_test_lib.design_patterns.factory.abs.ComputerFactory;
@@ -14,6 +18,10 @@ import com.mj.java_test_lib.design_patterns.factory.real.AmericanFoodFactory;
 import com.mj.java_test_lib.design_patterns.factory.real.ChineseFoodFactory;
 import com.mj.java_test_lib.design_patterns.factory.real.FoodFactory;
 import com.mj.java_test_lib.design_patterns.factory.simple.StaticFactory;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
 /**
  * Author      : MJ
@@ -47,6 +55,21 @@ public class DesignPatternSample {
         Computer amdComputer = new Computer(amdComputerFactory.makeCpu(), amdComputerFactory.makeMainBoard());
         printLog(intelComputer.description());
         printLog(amdComputer.description());
+
+        // 4.代理模式
+        printLog("###代理模式###");
+        UserProxy userProxy = new UserProxy(new UserImpl());
+        printLog("name : " + userProxy.getUserName());
+
+        // 5.动态代理
+        printLog("###动态代理###");
+        UserImpl originUser = new UserImpl();
+        IUser iUser = (IUser) Proxy.newProxyInstance(
+                originUser.getClass().getClassLoader(),
+                originUser.getClass().getInterfaces(),
+                new UserDynamicProxy(originUser));
+
+        printLog("user .getName " + iUser.getUserName());
 
         // ###### 装饰者模式 ######
         // 先来一杯红茶
