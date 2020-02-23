@@ -23,6 +23,10 @@ import com.mj.java_test_lib.design_patterns.factory.real.AmericanFoodFactory;
 import com.mj.java_test_lib.design_patterns.factory.real.ChineseFoodFactory;
 import com.mj.java_test_lib.design_patterns.factory.real.FoodFactory;
 import com.mj.java_test_lib.design_patterns.factory.simple.StaticFactory;
+import com.mj.java_test_lib.design_patterns.responsebility.AbstractLeaveProcess;
+import com.mj.java_test_lib.design_patterns.responsebility.GroupLeader;
+import com.mj.java_test_lib.design_patterns.responsebility.Hr;
+import com.mj.java_test_lib.design_patterns.responsebility.Vp;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -74,6 +78,7 @@ public class DesignPatternSample {
                 originUser.getClass().getInterfaces(),
                 new UserDynamicProxy(originUser));
 
+        printLog("user .getName " + iUser.getUserName());
 
         // 6. 桥梁模式
         printLog("###桥梁模式###");
@@ -83,10 +88,8 @@ public class DesignPatternSample {
         redCircle.draw();
         greenRectangle.draw();
 
-
-        printLog("user .getName " + iUser.getUserName());
-
-        // ###### 装饰者模式 ######
+        // 7.###### 装饰者模式 ######
+        printLog("###装饰者模式###");
         // 先来一杯红茶
         Beverage beverage = new RedTea();
         // 加柠檬
@@ -107,6 +110,19 @@ public class DesignPatternSample {
         // 再来一杯加芒果，加西瓜，加柠檬的绿茶
         Beverage greenTea = new Mango(new Watermelon(new Lemon(new GreenTea())));
         printLog("饮料2 ：" + greenTea.description() + "--- cost: " + greenTea.cost());
+
+        // 8.责任链模式
+        printLog("###责任链模式###");
+        // 拿请假流程来实现案例，比如一个员工要请假需要经过组长，vp,hr三个步骤
+        AbstractLeaveProcess groupLeader = new GroupLeader();
+        AbstractLeaveProcess vp = new Vp();
+        AbstractLeaveProcess hr = new Hr();
+        groupLeader.setAbstractLeaveProcess(vp);
+        vp.setAbstractLeaveProcess(hr);
+
+        // 员工最开始直接找组长请假了，然后整个流程都会一步一步走完。
+        printLog("请假结果 ： " + groupLeader.apply());
+
     }
 
 
