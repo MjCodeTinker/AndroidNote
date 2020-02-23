@@ -27,6 +27,10 @@ import com.mj.java_test_lib.design_patterns.responsebility.AbstractLeaveProcess;
 import com.mj.java_test_lib.design_patterns.responsebility.GroupLeader;
 import com.mj.java_test_lib.design_patterns.responsebility.Hr;
 import com.mj.java_test_lib.design_patterns.responsebility.Vp;
+import com.mj.java_test_lib.design_patterns.state.CloseState;
+import com.mj.java_test_lib.design_patterns.state.IState;
+import com.mj.java_test_lib.design_patterns.state.MyContext;
+import com.mj.java_test_lib.design_patterns.state.OpenState;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -123,6 +127,15 @@ public class DesignPatternSample {
         // 员工最开始直接找组长请假了，然后整个流程都会一步一步走完。
         printLog("请假结果 ： " + groupLeader.apply());
 
+        // 9.状态模式
+        MyContext myContext = new MyContext("my home door");
+        IState openState = new OpenState();
+        openState.doAction(myContext);
+
+        IState closeState = new CloseState();
+        closeState.doAction(myContext);
+
+        printLog("state ：" + myContext.getState().getStateDescription(myContext));
     }
 
 
