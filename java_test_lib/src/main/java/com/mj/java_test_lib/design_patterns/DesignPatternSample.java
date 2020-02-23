@@ -1,5 +1,10 @@
 package com.mj.java_test_lib.design_patterns;
 
+import com.mj.java_test_lib.design_patterns.bridge.Circle;
+import com.mj.java_test_lib.design_patterns.bridge.GreenPen;
+import com.mj.java_test_lib.design_patterns.bridge.RectAngle;
+import com.mj.java_test_lib.design_patterns.bridge.RedPen;
+import com.mj.java_test_lib.design_patterns.bridge.Shape;
 import com.mj.java_test_lib.design_patterns.decorator.component.Beverage;
 import com.mj.java_test_lib.design_patterns.decorator.component.GreenTea;
 import com.mj.java_test_lib.design_patterns.decorator.component.RedTea;
@@ -68,6 +73,16 @@ public class DesignPatternSample {
                 originUser.getClass().getClassLoader(),
                 originUser.getClass().getInterfaces(),
                 new UserDynamicProxy(originUser));
+
+
+        // 6. 桥梁模式
+        printLog("###桥梁模式###");
+
+        Shape redCircle = new Circle(5, new RedPen());
+        Shape greenRectangle = new RectAngle(4, 8, new GreenPen());
+        redCircle.draw();
+        greenRectangle.draw();
+
 
         printLog("user .getName " + iUser.getUserName());
 
