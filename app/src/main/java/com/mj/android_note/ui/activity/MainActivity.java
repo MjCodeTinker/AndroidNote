@@ -7,7 +7,6 @@ import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -74,18 +73,6 @@ public class MainActivity extends Activity {
                 startActivity(intent);
             }
         });
-
-
-        findViewById(R.id.main_activity_btn_plugins).setOnClickListener((v) ->{
-
-            // 1.先加载插件
-            // 2.启动插件
-
-            Intent intent = new Intent();
-            intent.setClassName("","");
-            startActivity(intent);
-        });
-
 //        lottieView.setImageAssetsFolder("lottie/images/");
 //        Cancellable cancellable = LottieComposition.Factory.fromAssetFileName(this, "lottie/data.json", new OnCompositionLoadedListener() {
 //            @Override
