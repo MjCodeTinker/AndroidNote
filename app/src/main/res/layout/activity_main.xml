@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
@@ -32,8 +33,16 @@
         android:layout_height="wrap_content"
         android:text="进入数据库页面"
         android:textColor="@color/colorAccent"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        tools:ignore="HardcodedText" />
 
+    <Button
+        android:id="@+id/main_activity_btn_plugins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="插件加载测试"
+        android:textColor="@color/colorAccent"
+        android:textSize="15sp" />
 
     <!--<Button-->
         <!--android:id="@+id/main_activity_btn_permission"-->
