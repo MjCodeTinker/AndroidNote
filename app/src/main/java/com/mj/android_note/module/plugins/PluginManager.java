@@ -2,6 +2,9 @@ package com.mj.android_note.module.plugins;
 
 import android.content.Context;
 
+import com.mj.lib.base.log.LogUtil;
+
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 
 import dalvik.system.DexClassLoader;
@@ -38,7 +41,7 @@ public class PluginManager {
             Field hostDexElementsField = hostDexPathListClass.getDeclaredField("dexElements");
             hostDexElementsField.setAccessible(true);
             Object[] hostDexElementsObj = (Object[]) hostDexElementsField.get(hostDexPathListObj);
-
+            LogUtil.e("mj", "hostDexElementsObj.length = " + hostDexElementsObj.length);
             // 3.拿到插件的DexPathList,并且拿到对应的dexElements数组
             DexClassLoader pluginDexClassLoader = new DexClassLoader(
                     apkPath,
@@ -52,7 +55,10 @@ public class PluginManager {
             Object[] pluginDexElementsObj = (Object[]) pluginDexElementsField.get(pluginDexPathListObj);
 
             // 4.将宿主的dexElements 与插件的dexElements进行合并
-            Object[] newDexElements = new Object[hostDexElementsObj.length + pluginDexElementsObj.length];
+            Object[] newDexElements = (Object[]) Array.newInstance(
+                    hostDexElementsObj.getClass().getComponentType(),
+                    hostDexElementsObj.length + pluginDexElementsObj.length);
+
             System.arraycopy(hostDexElementsObj, 0, newDexElements, 0, hostDexElementsObj.length);
             System.arraycopy(pluginDexElementsObj, 0, newDexElements, hostDexElementsObj.length, pluginDexElementsObj.length);
 

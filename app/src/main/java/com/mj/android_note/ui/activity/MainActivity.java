@@ -27,6 +27,7 @@ import com.mj.android_note.app.NoteApplication;
 import com.mj.android_note.base.serializable_parcelable.School;
 import com.mj.android_note.base.serializable_parcelable.TestSerializableAndParcelable;
 import com.mj.android_note.base.serializable_parcelable.User;
+import com.mj.android_note.module.plugins.HookManager;
 import com.mj.android_note.module.plugins.PluginManager;
 import com.mj.android_note.module.plugins.ResourceManager;
 import com.mj.android_note.ui.activity.butter_knife.TestButterKnifeActivity;
@@ -83,7 +84,9 @@ public class MainActivity extends Activity {
             PluginManager.loadPluginApk(MainActivity.this, apkPath);
             // 加载插件中的资源
             NoteApplication.getInstance().setPluginResource(ResourceManager.loadPluginResource(MainActivity.this, apkPath));
-            // Hook activity的启动
+            // Hook activity启动流程的intent
+            HookManager.hookStartActivity(MainActivity.this);
+            HookManager.hookHandler();
             // 启动插件
             Intent intent = new Intent();
             intent.setClassName("com.mj.plugin_test", "com.mj.plugin_test.PluginActivity");
