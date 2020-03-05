@@ -34,7 +34,13 @@
         android:textColor="@color/colorAccent"
         android:textSize="15sp" />
 
-
+    <Button
+        android:id="@+id/main_activity_btn_plugin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="启动插件Activity"
+        android:textColor="@color/colorAccent"
+        android:textSize="15sp" />
     <!--<Button-->
         <!--android:id="@+id/main_activity_btn_permission"-->
         <!--android:layout_width="wrap_content"-->

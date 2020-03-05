@@ -1,1 +1,1 @@
-include ':app', ':LibBase', ':testmodule', ':note_complier', ':java_test_lib'
+include ':app', ':LibBase', ':testmodule', ':note_complier', ':java_test_lib', ':plugin_test'

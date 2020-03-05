@@ -31,4 +31,8 @@ ext {
     JAVA_POET_VERSION = "1.7.0"
     GOOGLE_AUTO_SERVICE = "1.0-rc2"
     //###################### 第三方库 end ###########################
+
+    // JAVA_VERSION
+    SOURCE_COMPATIBILITY = JavaVersion.VERSION_1_8
+    TARGET_COMPATIBILITY = JavaVersion.VERSION_1_8
 }

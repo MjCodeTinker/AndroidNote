@@ -1,10 +1,9 @@
 package com.mj.android_note.app;
 
 import android.app.Application;
+import android.content.res.Resources;
 
-import androidx.core.graphics.PathUtils;
-
-import com.mj.android_note.utils.LocalResourceUtil;
+import com.mj.android_note.module.plugins.ResourceManager;
 import com.mj.lib.base.physical_storage.AppPathUtils;
 
 /**
@@ -16,6 +15,9 @@ import com.mj.lib.base.physical_storage.AppPathUtils;
 public class NoteApplication extends Application {
     private static NoteApplication instance;
 
+    // 插件Resource
+    private Resources pluginResource;
+
     public static NoteApplication getInstance() {
         return instance;
     }
@@ -25,5 +27,14 @@ public class NoteApplication extends Application {
         super.onCreate();
         instance = this;
         AppPathUtils.init(this);
+    }
+
+    public void setPluginResource(Resources resource) {
+        this.pluginResource = resource;
+    }
+
+    @Override
+    public Resources getResources() {
+        return pluginResource == null ? super.getResources() : pluginResource;
     }
 }

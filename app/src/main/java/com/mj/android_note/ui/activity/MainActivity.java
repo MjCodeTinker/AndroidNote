@@ -9,8 +9,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
@@ -23,9 +23,12 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.mj.android_note.R;
+import com.mj.android_note.app.NoteApplication;
 import com.mj.android_note.base.serializable_parcelable.School;
 import com.mj.android_note.base.serializable_parcelable.TestSerializableAndParcelable;
 import com.mj.android_note.base.serializable_parcelable.User;
+import com.mj.android_note.module.plugins.PluginManager;
+import com.mj.android_note.module.plugins.ResourceManager;
 import com.mj.android_note.ui.activity.butter_knife.TestButterKnifeActivity;
 import com.mj.lib.base.log.LogUtil;
 import com.mj.lib.base.thread.ThreadUtils;
@@ -73,6 +76,20 @@ public class MainActivity extends Activity {
                 startActivity(intent);
             }
         });
+
+        setListener(R.id.main_activity_btn_plugin, (v) -> {
+            String apkPath = Environment.getExternalStorageDirectory().getPath() + "/" + "plugin_test.apk";
+            // 加载插件中的apk
+            PluginManager.loadPluginApk(MainActivity.this, apkPath);
+            // 加载插件中的资源
+            NoteApplication.getInstance().setPluginResource(ResourceManager.loadPluginResource(MainActivity.this, apkPath));
+            // Hook activity的启动
+            // 启动插件
+            Intent intent = new Intent();
+            intent.setClassName("com.mj.plugin_test", "com.mj.plugin_test.PluginActivity");
+            startActivity(intent);
+        });
+
 //        lottieView.setImageAssetsFolder("lottie/images/");
 //        Cancellable cancellable = LottieComposition.Factory.fromAssetFileName(this, "lottie/data.json", new OnCompositionLoadedListener() {
 //            @Override
@@ -305,6 +322,11 @@ public class MainActivity extends Activity {
     class XYTranslation {
         int x;
         int y;
+    }
+
+
+    private void setListener(int id, View.OnClickListener onClickListener) {
+        findViewById(id).setOnClickListener(onClickListener);
     }
 
 

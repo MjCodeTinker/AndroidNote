@@ -45,8 +45,8 @@
             tools:ignore="InnerclassSeparator" />
         <!--测试butterKnife-->
         <activity android:name=".ui.activity.butter_knife.TestButterKnifeActivity" />
-
-
+        <!--为插件占坑的代理Activity-->
+        <activity android:name=".module.plugins.PluginProxyActivity" />
     </application>
 
 </manifest>
