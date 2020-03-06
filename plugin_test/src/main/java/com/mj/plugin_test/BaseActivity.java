@@ -1,14 +1,19 @@
 package com.mj.plugin_test;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.res.Resources;
-
-import androidx.appcompat.app.AppCompatActivity;
+import android.util.Log;
 
 @SuppressLint("Registered")
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends Activity {
     @Override
     public Resources getResources() {
-        return getApplication().getResources();
+        Log.e("mj", "BaseActivity#getResources()---getApplication():" + getApplication());
+        if (getApplication() != null && getApplication().getResources() != null) {
+            return getApplication().getResources();
+        } else {
+            return super.getResources();
+        }
     }
 }

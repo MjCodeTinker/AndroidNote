@@ -63,7 +63,7 @@ public class PluginManager {
             System.arraycopy(pluginDexElementsObj, 0, newDexElements, hostDexElementsObj.length, pluginDexElementsObj.length);
 
             // 5.把合并后的数组设置给宿主
-            hostDexElementsField.set(hostDexElementsObj, newDexElements);
+            hostDexElementsField.set(hostDexPathListObj, newDexElements);
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

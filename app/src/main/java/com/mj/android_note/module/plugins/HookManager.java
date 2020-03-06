@@ -4,10 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
-import android.os.Parcelable;
+
+import com.mj.lib.base.log.LogUtil;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Proxy;
+import java.util.Arrays;
 
 public class HookManager {
 
@@ -28,29 +30,42 @@ public class HookManager {
             singletonInstanceField.setAccessible(true);
             Object iActivityManagerObj = singletonInstanceField.get(iActivityManagerSingletonObj);
 
+            for (int i = 0; i < iActivityManagerObj.getClass().getInterfaces().length; i++) {
+                LogUtil.e("mj", iActivityManagerObj.getClass().getInterfaces()[i] + "");
+            }
+
             Object proxyObj = Proxy.newProxyInstance(
                     context.getClassLoader(),
-                    new Class[]{iActivityManagerObj.getClass()},
+                    iActivityManagerObj.getClass().getInterfaces(),
                     (proxy, method, args) -> {
                         // 将插件的intent 替换为预制的intent
-                        if (method.getName().equals("startActivity")) {
-                            int intentIndex = 0;
-                            for (int i = 0; i < args.length; i++) {
-                                if (args[i].getClass().getName().equals("Intent")) {
-                                    intentIndex = i;
-                                    break;
+                        try {
+                            if (method.getName().equals("startActivity")) {
+                                LogUtil.e("mj", "i am iActivityManagerObj InvocationHandler:method = " + method + "--proxy=" + proxy + "--args=" + Arrays.toString(args));
+                                int intentIndex = 0;
+                                for (int i = 0; i < args.length; i++) {
+                                    if (args[i] instanceof Intent) {
+                                        intentIndex = i;
+                                        break;
+                                    }
                                 }
+                                Intent pluginIntent = (Intent) args[intentIndex];
+                                Intent proxyIntent = new Intent();
+                                proxyIntent.putExtra(PLUGIN_INTENT, pluginIntent);
+                                proxyIntent.setClassName("com.mj.android_note", "com.mj.android_note.module.plugins.PluginProxyActivity");
+                                args[intentIndex] = proxyIntent;
+                                LogUtil.e("mj", "Proxy end.." + args[intentIndex]);
+                                Object invoke = method.invoke(iActivityManagerObj, args);
+                                LogUtil.e("mj", "invoke = " + invoke + "--Proxy end.." + args[intentIndex]);
+                                return invoke;
                             }
-                            Intent pluginIntent = (Intent) args[intentIndex];
-                            Intent proxyIntent = new Intent();
-                            proxyIntent.putExtra(PLUGIN_INTENT, pluginIntent);
-                            proxyIntent.setClassName("com.mj.android_note", "com.mj.android_note.module.plugins.PluginProxyActivity");
-                            args[intentIndex] = proxyIntent;
-                            return method.invoke(iActivityManagerObj, args);
+                        } catch (Exception e) {
+                            LogUtil.e("mj", "e=" + e);
                         }
-                        return null;
+                        return method.invoke(iActivityManagerObj, args);
                     });
-            singletonInstanceField.set(iActivityManagerObj, proxyObj);
+            LogUtil.e("mj", "proxyObj : " + proxyObj + "--iActivityManagerSingletonObj:" + iActivityManagerSingletonObj);
+            singletonInstanceField.set(iActivityManagerSingletonObj, proxyObj);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (NoSuchFieldException e) {
@@ -77,18 +92,23 @@ public class HookManager {
             mCallbackField.set(mHHandler, (Handler.Callback) msg -> {
                 if (msg.what == 100) {
                     try {
+                        LogUtil.e("mj", "msg.obj=" + msg.obj);
                         Field intentField = msg.obj.getClass().getDeclaredField("intent");
                         intentField.setAccessible(true);
                         Intent proxyIntent = (Intent) intentField.get(msg.obj);
                         Intent pluginIntent = proxyIntent.getParcelableExtra(PLUGIN_INTENT);
-                        proxyIntent.setComponent(pluginIntent.getComponent());
+//                        proxyIntent.setComponent(pluginIntent.getComponent());
+                        intentField.set(msg.obj, pluginIntent);
+                        LogUtil.e("mj", "Callback end intent:" + pluginIntent);
+                        LogUtil.e("mj", "Callback end proxyIntent:" + proxyIntent);
+                        LogUtil.e("mj", "Callback end:" + msg.obj);
                     } catch (NoSuchFieldException e) {
                         e.printStackTrace();
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }
                 }
-                return true;
+                return false;
             });
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

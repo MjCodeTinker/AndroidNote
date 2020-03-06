@@ -10,7 +10,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
@@ -34,6 +33,11 @@ import com.mj.android_note.ui.activity.butter_knife.TestButterKnifeActivity;
 import com.mj.lib.base.log.LogUtil;
 import com.mj.lib.base.thread.ThreadUtils;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -49,6 +53,9 @@ public class MainActivity extends Activity {
     private static final String TAG = "MainActivity";
 
     ValueAnimator valueAnimator;
+
+    boolean pluginIsLoaded;
+
 
     @SuppressLint("NewApi")
     @Override
@@ -78,19 +85,59 @@ public class MainActivity extends Activity {
             }
         });
 
+        LogUtil.e("mj", "external application:" + getApplication());
         setListener(R.id.main_activity_btn_plugin, (v) -> {
-            String apkPath = Environment.getExternalStorageDirectory().getPath() + "/" + "plugin_test.apk";
-            // 加载插件中的apk
-            PluginManager.loadPluginApk(MainActivity.this, apkPath);
-            // 加载插件中的资源
-            NoteApplication.getInstance().setPluginResource(ResourceManager.loadPluginResource(MainActivity.this, apkPath));
-            // Hook activity启动流程的intent
-            HookManager.hookStartActivity(MainActivity.this);
-            HookManager.hookHandler();
-            // 启动插件
-            Intent intent = new Intent();
-            intent.setClassName("com.mj.plugin_test", "com.mj.plugin_test.PluginActivity");
-            startActivity(intent);
+//            String apkPath = Environment.getExternalStorageDirectory() + "/plugin_test.apk";
+
+            String apkPath = getFilesDir().getPath() + "/plugin_test.apk";
+            new ThreadUtils().exeDbAction(() -> {
+                if (!pluginIsLoaded) {
+                    try {
+
+                        InputStream inputStream = getAssets().open("plugin_test-release-unsigned.apk");
+
+                        File file = new File(apkPath);
+                        if (file.exists()) file.delete();
+                        file.createNewFile();
+                        OutputStream outputStream = new FileOutputStream(file);
+                        int len;
+                        while ((len = inputStream.read()) != -1) {
+                            outputStream.write(len);
+                        }
+                        inputStream.close();
+                        outputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    // 加载插件中的apk
+                    PluginManager.loadPluginApk(MainActivity.this, apkPath);
+                    // 加载插件中的资源
+                    NoteApplication.getInstance().setPluginResource(ResourceManager.loadPluginResource(MainActivity.this, apkPath));
+                    // Hook activity启动流程的intent
+                    HookManager.hookStartActivity(MainActivity.this);
+                    HookManager.hookHandler();
+
+                    LogUtil.e("mj", "host application:" + getApplication());
+                }
+                // 启动插件
+                Intent intent = new Intent();
+                intent.setClassName("com.mj.plugin_test", "com.mj.plugin_test.PluginActivity");
+//                intent.setClassName("com.mj.android_note", "com.mj.android_note.module.plugins.PluginProxyActivity");
+//                intent.setClassName("com.mj.android_note", "com.mj.android_note.ui.activity.butter_knife.TestButterKnifeActivity");
+                startActivity(intent);
+                pluginIsLoaded = true;
+                // 测试加载插件中的类
+//                try {
+//                    Class<?> aClass = Class.forName("com.mj.plugin_test.PluginTestClass");
+//                    Method showLog = aClass.getDeclaredMethod("showLog");
+//                    showLog.setAccessible(true);
+//                    showLog.invoke(aClass.newInstance());
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+
+            });
         });
 
 //        lottieView.setImageAssetsFolder("lottie/images/");
