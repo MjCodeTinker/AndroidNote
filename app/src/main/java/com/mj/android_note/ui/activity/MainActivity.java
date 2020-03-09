@@ -90,7 +90,7 @@ public class MainActivity extends Activity {
 //            String apkPath = Environment.getExternalStorageDirectory() + "/plugin_test.apk";
 
             String apkPath = getFilesDir().getPath() + "/plugin_test.apk";
-            new ThreadUtils().exeDbAction(() -> {
+            ThreadUtils.getInstance().exeDbAction(() -> {
                 if (!pluginIsLoaded) {
                     try {
 

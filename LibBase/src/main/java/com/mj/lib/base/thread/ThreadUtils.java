@@ -18,6 +18,9 @@ public class ThreadUtils {
         return Holder.threadUtils;
     }
 
+    private ThreadUtils() {
+    }
+
     private static class Holder {
         static ThreadUtils threadUtils = new ThreadUtils();
     }
