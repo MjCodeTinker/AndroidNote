@@ -4,6 +4,8 @@ import android.util.LruCache;
 
 import androidx.annotation.NonNull;
 
+import com.mj.android_note.data_structure.algorithm.binary.BinarySearchUtils;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -74,6 +76,10 @@ public class DataStructureDemo {
         // 3.LinkedHashMap是如何保证按照访问顺序，将数据存在链表的尾部的。
         // 4.HashMap中的entrySet是何拿值的
 
+        // 二分查找测试
+        int[] sortArray = {1, 2, 3, 4, 5, 6, 8, 10, 100, 111, 126};
+        int i = BinarySearchUtils.binarySearch(sortArray, 100);
+        printLog("binary search target index : " + i);
     }
 
     private static void printMap(Map<String, Integer> map) {
