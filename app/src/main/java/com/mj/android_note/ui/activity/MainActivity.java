@@ -23,6 +23,7 @@ import androidx.annotation.Nullable;
 
 import com.mj.android_note.R;
 import com.mj.android_note.app.NoteApplication;
+import com.mj.android_note.base.AndroidKeyWatcher;
 import com.mj.android_note.base.serializable_parcelable.School;
 import com.mj.android_note.base.serializable_parcelable.TestSerializableAndParcelable;
 import com.mj.android_note.base.serializable_parcelable.User;
@@ -30,6 +31,7 @@ import com.mj.android_note.module.plugins.HookManager;
 import com.mj.android_note.module.plugins.PluginManager;
 import com.mj.android_note.module.plugins.ResourceManager;
 import com.mj.android_note.ui.activity.butter_knife.TestButterKnifeActivity;
+import com.mj.android_note.utils.ToastUtils;
 import com.mj.lib.base.log.LogUtil;
 import com.mj.lib.base.thread.ThreadUtils;
 
@@ -380,4 +382,30 @@ public class MainActivity extends Activity {
     }
 
 
+    private AndroidKeyWatcher androidKeyWatcher;
+
+    private AndroidKeyWatcher getAndroidKeyWatcher() {
+        if (androidKeyWatcher == null) {
+            androidKeyWatcher = new AndroidKeyWatcher();
+        }
+        return androidKeyWatcher;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getAndroidKeyWatcher().register(this, (result) -> {
+            if (result == AndroidKeyWatcher.KeyType.SINGLE_CLICK_HOME) {
+                LogUtil.e(TAG, "home 按键被点击 result : " + result);
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (androidKeyWatcher != null) {
+            androidKeyWatcher.unRegister(this);
+        }
+    }
 }
