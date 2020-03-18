@@ -4,12 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.text.TextUtils;
-
-import androidx.annotation.NonNull;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * Author      : MJ
@@ -36,7 +30,7 @@ public class AndroidKeyWatcher {
      * @param context     context
      * @param iKeyWatcher 监听器
      */
-    public void register(@NonNull Context context, IKeyWatcher iKeyWatcher) {
+    public void register(Context context, IKeyWatcher iKeyWatcher) {
         this.iKeyWatcher = iKeyWatcher;
         registerReceiver(context);
     }
@@ -46,7 +40,7 @@ public class AndroidKeyWatcher {
      *
      * @param context context
      */
-    public void unRegister(@NonNull Context context) {
+    public void unRegister(Context context) {
         this.iKeyWatcher = null;
         unRegisterReceiver(context);
     }
@@ -56,19 +50,19 @@ public class AndroidKeyWatcher {
      *
      * @param context context
      */
-    private void registerReceiver(@NonNull Context context) {
+    private void registerReceiver(Context context) {
         if (keyReceiver == null) {
             keyReceiver = new KeyReceiver();
         }
         // 使用applicationContext，是为了防止activity的内存泄漏
-        if (context.getApplicationContext() != null) {
+        if (context != null && context.getApplicationContext() != null) {
             IntentFilter filter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
             context.getApplicationContext().registerReceiver(keyReceiver, filter);
         }
     }
 
-    private void unRegisterReceiver(@NonNull Context context) {
-        if (context.getApplicationContext() != null && keyReceiver != null) {
+    private void unRegisterReceiver(Context context) {
+        if (context != null && context.getApplicationContext() != null && keyReceiver != null) {
             context.getApplicationContext().unregisterReceiver(keyReceiver);
         }
     }
