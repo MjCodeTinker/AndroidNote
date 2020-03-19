@@ -40,7 +40,6 @@ public class FirstProcessActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        tvText.setText(String.valueOf(MainProcessActivity.TEST_CONSTANT_FROM_MULTI_PROCESS_DEFAULT));
     }
 
 }

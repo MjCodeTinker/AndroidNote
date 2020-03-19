@@ -18,11 +18,6 @@ import com.mj.android_note.base.BaseActivity;
 
 public class SecondProcessActivity extends BaseActivity {
 
-    /**
-     * 测试多进程中的常量，修改后的值
-     */
-    public static int TEST_CONSTANT_FROM_MULTI_PROCESS_RESULT = 200;
-
     public static void launcher(Context context) {
         startAct(context, SecondProcessActivity.class);
     }
@@ -44,26 +39,18 @@ public class SecondProcessActivity extends BaseActivity {
 
     private void updateConstantsAndProcessSync() {
         errorUpdateMethod();
-        setText();
     }
 
     /**
      * 错误的修改方式
      */
     private void errorUpdateMethod() {
-        MainProcessActivity.TEST_CONSTANT_FROM_MULTI_PROCESS_DEFAULT = TEST_CONSTANT_FROM_MULTI_PROCESS_RESULT;
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        setText();
     }
-
-    private void setText() {
-        tvText.setText(String.valueOf(MainProcessActivity.TEST_CONSTANT_FROM_MULTI_PROCESS_DEFAULT));
-    }
-
 
 }

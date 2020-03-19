@@ -47,6 +47,10 @@
         <activity android:name=".ui.activity.butter_knife.TestButterKnifeActivity" />
         <!--为插件占坑的代理Activity-->
         <activity android:name=".module.plugins.PluginProxyActivity" />
+        <!--服务进程-->
+        <service
+            android:name=".module.process.BackgroundService"
+            android:process=":background_service" />
     </application>
 
 </manifest>

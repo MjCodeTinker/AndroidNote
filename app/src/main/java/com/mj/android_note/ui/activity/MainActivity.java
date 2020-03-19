@@ -24,14 +24,12 @@ import androidx.annotation.Nullable;
 import com.mj.android_note.R;
 import com.mj.android_note.app.NoteApplication;
 import com.mj.android_note.base.AndroidKeyWatcher;
-import com.mj.android_note.base.serializable_parcelable.School;
 import com.mj.android_note.base.serializable_parcelable.TestSerializableAndParcelable;
 import com.mj.android_note.base.serializable_parcelable.User;
 import com.mj.android_note.module.plugins.HookManager;
 import com.mj.android_note.module.plugins.PluginManager;
 import com.mj.android_note.module.plugins.ResourceManager;
-import com.mj.android_note.ui.activity.butter_knife.TestButterKnifeActivity;
-import com.mj.android_note.utils.ToastUtils;
+import com.mj.android_note.module.process.MainProcessActivity;
 import com.mj.lib.base.log.LogUtil;
 import com.mj.lib.base.thread.ThreadUtils;
 
@@ -79,11 +77,12 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
 //                Intent intent = new Intent(MainActivity.this, DbMainActivity.class);
 //                startActivity(intent);
-                Intent intent = new Intent(MainActivity.this, TestButterKnifeActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("parcelable_test", new School(100, "北京大学", "北京市海淀区"));
-                intent.putExtras(bundle);
-                startActivity(intent);
+//                Intent intent = new Intent(MainActivity.this, TestButterKnifeActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putParcelable("parcelable_test", new School(100, "北京大学", "北京市海淀区"));
+//                intent.putExtras(bundle);
+//                startActivity(intent);
+                MainProcessActivity.launcher(MainActivity.this);
             }
         });
 

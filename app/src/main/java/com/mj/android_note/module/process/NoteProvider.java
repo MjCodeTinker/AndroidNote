@@ -23,11 +23,9 @@ import java.io.InputStreamReader;
 
 public class NoteProvider extends ContentProvider {
     private static final String TAG = "NoteProvider";
-    public static int TEST_CONSTANT_FROM_MULTI_PROCESS_DEFAULT = 100;
 
     @Override
     public boolean onCreate() {
-        Log.e(TAG, TAG + " onCreate() processName=" + getProcessName());
         return true;
     }
 
@@ -59,33 +57,4 @@ public class NoteProvider extends ContentProvider {
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
         return 0;
     }
-
-    String getProcessName() {
-        String processName = "default";
-
-        File cmdFile = new File("/proc/" + android.os.Process.myPid() + "/cmdline");
-
-        if (cmdFile.exists() && !cmdFile.isDirectory()) {
-            BufferedReader reader = null;
-            try {
-                reader = new BufferedReader(new InputStreamReader(new FileInputStream(cmdFile)));
-                String procName = reader.readLine();
-
-//                if (!TextUtils.isEmpty(procName) && getContext() != null) {
-//                    processName = procName.trim().replace(getContext().getPackageName(), "").replace(":", "");
-//                }
-                return procName.trim();
-            } catch (Exception ignored) {
-            } finally {
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    } catch (Exception ignored) {
-                    }
-                }
-            }
-        }
-        return processName;
-    }
-
 }
