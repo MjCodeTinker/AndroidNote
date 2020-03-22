@@ -34,6 +34,13 @@ public class BaseTestDemo {
         boolean b = baseAlgorithm.checkArrayIsMonotonous(new int[]{1, 3, 1});
         boolean b1 = baseAlgorithm.checkArrayIsMonotonous(new int[]{1, 2, 3});
         System.out.println("b = " + b + "--b1 = " + b1);
+        printLog("##########快速排序开始");
+        // 快速排序
+        int[] tempQuickSortData = BaseAlgorithm.DATA_QUICK_SORT;
+        printLog("原始数据为：" + Arrays.toString(tempQuickSortData));
+        baseAlgorithm.quickSort(tempQuickSortData, 0, tempQuickSortData.length - 1);
+        printLog("快速排序后的结果为：" + Arrays.toString(tempQuickSortData));
+        printLog("##########快速排序结束");
 
         // 两个数之和等于目标值
         try {

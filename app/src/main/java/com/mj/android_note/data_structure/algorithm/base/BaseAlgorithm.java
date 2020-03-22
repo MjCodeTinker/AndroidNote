@@ -116,4 +116,58 @@ public class BaseAlgorithm {
     }
 
 
+    // 快速排序使用到的数据源
+    public static final int[] DATA_QUICK_SORT = {3, 8, 6, 5, 9, 2, 1, 0, 4, 7};
+
+    /**
+     * 快速排序算法
+     *
+     * @param array
+     * @param left
+     * @param right
+     * @return
+     */
+    private int partition(int[] array, int left, int right) {
+
+        // 基准元素
+        int temp = array[left];
+
+        while (left < right) {
+            // 从右向左找出比基准元素小的元素
+            while (left < right && temp <= array[right]) {
+                right--;
+            }
+
+            if (left < right) {
+                array[left] = array[right];
+                left++;
+            }
+
+            // 从左向右找，比基准元素大的元素
+            while (left < right && temp >= array[left]) {
+                left++;
+            }
+
+            if (left < right) {
+                array[right] = array[left];
+                right--;
+            }
+
+        }
+
+        // 找到基准元素最终的位置了，此时基准元素左边的都是比他小的，右边的都是比他大的
+        array[left] = temp;
+        return left;
+    }
+
+    public void quickSort(int[] array, int left, int right) {
+        if (array == null || array.length == 0 || left > right) {
+            return;
+        }
+        int middle = partition(array, left, right);
+        quickSort(array, left, middle - 1);
+        quickSort(array, middle + 1, right);
+    }
+
+
 }
