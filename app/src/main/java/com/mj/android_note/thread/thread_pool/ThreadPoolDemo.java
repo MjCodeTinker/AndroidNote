@@ -1,5 +1,7 @@
 package com.mj.android_note.thread.thread_pool;
 
+import com.mj.lib.base.log.LogUtil;
+
 import java.util.Random;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.Callable;
@@ -133,6 +135,21 @@ public class ThreadPoolDemo {
 
         // 测试FutureTask
         TestFuture.test();
+
+        // 检测一个方法是否是原子性的，线程安全的
+
+        printLog("########### 检测一个方法是否是原子性的，线程安全的 start");
+        ExecutorService executorService3 = Executors.newFixedThreadPool(15);
+        TestAtomicMethod testAtomicMethod = new TestAtomicMethod();
+        for (int i = 0; i < 15; i++) {
+            int finalI = i;
+            executorService3.execute(() -> {
+                long id = Thread.currentThread().getId();
+                long sum = testAtomicMethod.sum(id, 1);
+                printLog("id = " + id + "---sum = " + sum + "---current i : " + finalI);
+            });
+        }
+        printLog("########### 检测一个方法是否是原子性的，线程安全的 end");
     }
 
     private static void checkIPP() {
@@ -629,9 +646,9 @@ public class ThreadPoolDemo {
             try {
                 future.cancel(true);
                 String s;
-                if(future.isCancelled() || future.isDone()){
+                if (future.isCancelled() || future.isDone()) {
                     s = "已经被取消了";
-                }else{
+                } else {
                     s = future.get();
                 }
                 printLog("我是FutureTask s : " + s);
