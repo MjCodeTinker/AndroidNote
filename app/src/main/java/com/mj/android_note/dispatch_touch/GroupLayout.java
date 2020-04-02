@@ -6,6 +6,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.RelativeLayout;
 
+import com.mj.lib.base.log.LogUtil;
+
 /**
  * Author      : MJ
  * Date        : 2019/4/4--16:41
@@ -14,6 +16,8 @@ import android.widget.RelativeLayout;
  */
 
 public class GroupLayout extends RelativeLayout {
+
+    private static final String TAG = DispatchTouchActivity.FULL_TAG + "GroupLayout";
 
     public GroupLayout(Context context) {
         super(context);
@@ -29,20 +33,20 @@ public class GroupLayout extends RelativeLayout {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        DispatchTouchActivity.printEventLog(ev, "GroupLayout ## dispatchTouchEvent");
+        DispatchTouchActivity.printLog(TAG, "dispatchTouchEvent : " + ev.getAction(), ev);
         return super.dispatchTouchEvent(ev);
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        DispatchTouchActivity.printEventLog(ev, "GroupLayout ## onInterceptTouchEvent");
+        DispatchTouchActivity.printLog(TAG, "onInterceptTouchEvent :" + ev.getAction(), ev);
         return super.onInterceptTouchEvent(ev);
     }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        DispatchTouchActivity.printEventLog(event, "GroupLayout ## onTouchEvent");
+        DispatchTouchActivity.printLog(TAG, "onTouchEvent :" + event.getAction(), event);
         return super.onTouchEvent(event);
     }
 

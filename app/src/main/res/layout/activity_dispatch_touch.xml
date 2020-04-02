@@ -3,27 +3,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <com.mj.android_note.dispatch_touch.RootLayout
+        android:id="@+id/dispatch_touch_root_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center">
 
         <com.mj.android_note.dispatch_touch.GroupLayout
+            android:id="@+id/dispatch_touch_group_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="300dp"
+            android:background="#092628">
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <com.mj.android_note.dispatch_touch.TouchView
-                    android:id="@+id/dispatch_touch_display_result"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="10dp"
-                    android:gravity="center_vertical"
-                    android:text="mj`s pro" />
-            </ScrollView>
+            <com.mj.android_note.dispatch_touch.TouchView
+                android:id="@+id/dispatch_touch_display_result"
+                android:layout_width="200dp"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true"
+                android:background="#ff0000"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="我是TextView" />
         </com.mj.android_note.dispatch_touch.GroupLayout>
     </com.mj.android_note.dispatch_touch.RootLayout>
 

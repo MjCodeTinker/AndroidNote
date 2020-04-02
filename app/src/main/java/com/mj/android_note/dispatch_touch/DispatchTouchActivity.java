@@ -1,15 +1,23 @@
 package com.mj.android_note.dispatch_touch;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.mj.android_note.R;
 import com.mj.lib.base.log.LogUtil;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Author      : MJ
@@ -20,7 +28,8 @@ import com.mj.lib.base.log.LogUtil;
 
 public class DispatchTouchActivity extends AppCompatActivity {
 
-    private static final String TAG = "DispatchTouchActivity";
+    public static final String FULL_TAG = "EventDispatch###";
+    private static final String TAG = FULL_TAG + "DispatchTouchActivity";
 
     public static void launcher(Context context) {
         Intent intent = new Intent(context, DispatchTouchActivity.class);
@@ -62,16 +71,69 @@ public class DispatchTouchActivity extends AppCompatActivity {
     }
 
     private static StringBuilder stringBuilder;
-    private TouchView touchView;
     private static boolean isAppend = true;
 
+    @BindView(R.id.dispatch_touch_root_layout)
+    RootLayout rootLayout;
+
+    @BindView(R.id.dispatch_touch_group_layout)
+    GroupLayout groupLayout;
+
+    @BindView(R.id.dispatch_touch_display_result)
+    TouchView touchView;
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dispatch_touch);
+        ButterKnife.bind(this);
         stringBuilder = new StringBuilder();
-        touchView = findViewById(R.id.dispatch_touch_display_result);
+
+        setOnTouchEvent(rootLayout);
+        setOnClickListener(rootLayout);
+        setOnLongClickListener(rootLayout);
+
+        setOnTouchEvent(groupLayout);
+        setOnClickListener(groupLayout);
+        setOnLongClickListener(groupLayout);
+
+        setOnTouchEvent(touchView);
+        setOnClickListener(touchView);
+        setOnLongClickListener(touchView);
+
     }
+
+    private void setOnTouchEvent(View view) {
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                printLog(FULL_TAG, view.getClass().getSimpleName() + ": onTouch  = " + event.getAction(), event);
+                return false;
+            }
+        });
+    }
+
+    private void setOnClickListener(View view) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                printLog(FULL_TAG, view.getClass().getSimpleName() + "--click Event");
+            }
+        });
+    }
+
+    private void setOnLongClickListener(View view) {
+        view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                printLog(FULL_TAG, view.getClass().getSimpleName() + "--onLongClick Event");
+                return false;
+            }
+        });
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -100,14 +162,33 @@ public class DispatchTouchActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        LogUtil.e(TAG, "onUserInteraction 被调用");
+    }
+
+    @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        printEventLog(ev, "ACTIVITY ## dispatchTouchEvent");
+        printLog(TAG, "dispatchTouchEvent : " + ev.getAction(), ev);
         return super.dispatchTouchEvent(ev);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        printEventLog(event, "ACTIVITY ## onTouchEvent");
+        printLog(TAG, "onTouchEvent : " + event.getAction(), event);
         return super.onTouchEvent(event);
+    }
+
+
+    public static void printLog(String tag, String str) {
+        stringBuilder.append(str).append("\n");
+        Log.e(tag, str);
+    }
+
+    public static void printLog(String tag, String str, MotionEvent motionEvent) {
+        if (MotionEvent.ACTION_MOVE == motionEvent.getAction()) {
+            return;
+        }
+        printLog(tag, str);
     }
 }

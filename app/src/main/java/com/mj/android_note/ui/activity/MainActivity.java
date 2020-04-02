@@ -26,6 +26,7 @@ import com.mj.android_note.app.NoteApplication;
 import com.mj.android_note.base.AndroidKeyWatcher;
 import com.mj.android_note.base.serializable_parcelable.TestSerializableAndParcelable;
 import com.mj.android_note.base.serializable_parcelable.User;
+import com.mj.android_note.dispatch_touch.DispatchTouchActivity;
 import com.mj.android_note.module.plugins.HookManager;
 import com.mj.android_note.module.plugins.PluginManager;
 import com.mj.android_note.module.plugins.ResourceManager;
@@ -174,15 +175,10 @@ public class MainActivity extends Activity {
 //                MainProcessActivity.launcher(MainActivity.this);
 //            }
 //        });
-//
-//        final Button btnView = findViewById(R.id.main_activity_btn_dispatch_touch);
-//        btnView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                valueAnimator.start();
-////                DispatchTouchActivity.launcher(MainActivity.this);
-//            }
-//        });
+
+        setListener(R.id.main_activity_btn_dispatch_touch, (View v) -> {
+            DispatchTouchActivity.launcher(MainActivity.this);
+        });
 
         testValueAnimator();
         testObjectAnimator();

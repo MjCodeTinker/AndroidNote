@@ -2,10 +2,13 @@ package com.mj.android_note.dispatch_touch;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+
+import com.mj.lib.base.log.LogUtil;
 
 /**
  * Author      : MJ
@@ -15,7 +18,9 @@ import android.widget.TextView;
  */
 
 @SuppressLint("AppCompatCustomView")
-public class TouchView extends TextView{
+public class TouchView extends TextView {
+
+    private static final String TAG = DispatchTouchActivity.FULL_TAG + "TouchView";
 
     public TouchView(Context context) {
         super(context);
@@ -32,14 +37,16 @@ public class TouchView extends TextView{
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        DispatchTouchActivity.printEventLog(event, "TouchView ## dispatchTouchEvent");
+        DispatchTouchActivity.printLog(TAG, "dispatchTouchEvent : " + event.getAction(), event);
         return super.dispatchTouchEvent(event);
     }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        DispatchTouchActivity.printEventLog(event, "TouchView ## onTouchEvent");
+        DispatchTouchActivity.printLog(TAG, "onTouchEvent : " + event.getAction(), event);
         return super.onTouchEvent(event);
     }
+
+
 }
